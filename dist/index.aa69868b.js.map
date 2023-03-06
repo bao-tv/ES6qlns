@@ -1,0 +1,1 @@
+{"mappings":"AAAA,gDAAgD;AAEhD,sDAAsD","sources":["src/js/main.js"],"sourcesContent":["// import * as Constructor from \"./constructor\";\n\n// const stu = new Constructor.Student(1,2,3,4,5,6,7);"],"names":[],"version":3,"file":"index.aa69868b.js.map","sourceRoot":"/__parcel_source_root/"}
