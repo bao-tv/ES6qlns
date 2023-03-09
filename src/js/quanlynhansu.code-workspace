@@ -1,0 +1,22 @@
+{
+	"folders": [
+		{
+			"path": "../.."
+		},
+		{
+			"path": "../../../../API/shopAPI"
+		},
+		{
+			"path": "../../../19_Module"
+		},
+		{
+			"path": "../../../../Javascript/bài tập và tài liệu/baitapjs9-10"
+		},
+		{
+			"path": "../../../../ReactJs/reactjs"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "19_Module"
+	}
+}

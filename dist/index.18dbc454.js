@@ -557,9 +557,53 @@ function hmrAccept(bundle, id) {
 }
 
 },{}],"1SICI":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "studentList", ()=>studentList);
+parcelHelpers.export(exports, "employeeList", ()=>employeeList);
+parcelHelpers.export(exports, "customerList", ()=>customerList);
+var _helpersJs = require("./helpers.js");
 var _constructorJs = require("./constructor.js");
+var _renderJs = require("./render.js");
+let studentList = (0, _helpersJs.getStore)("studentList");
+let employeeList = [];
+let customerList = [];
+(0, _renderJs.renderStudent)(studentList);
+console.log("getStore: ", (0, _helpersJs.getStore)("studentList"), typeof (0, _helpersJs.getStore)("studentList"));
+(0, _helpersJs.getEle)("#addStudent").addEventListener("click", addStudent);
+function addStudent() {
+    // DOM
+    let code = (0, _helpersJs.getEle)("#CodeStudent").value;
+    let fullname = (0, _helpersJs.getEle)("#FullNameStudent").value;
+    let address = (0, _helpersJs.getEle)("#AddressStudent").value;
+    let email = (0, _helpersJs.getEle)("#EmailStudent").value;
+    let math = (0, _helpersJs.getEle)("#Math").value;
+    let physical = (0, _helpersJs.getEle)("#Physical").value;
+    let chemistry = (0, _helpersJs.getEle)("#Chemistry").value;
+    let type = "Student";
+    const studentAdd = new (0, _constructorJs.Student)(code, fullname, address, email, math, physical, chemistry, type);
+    studentList.push(studentAdd);
+    (0, _renderJs.renderStudent)(studentList);
+    (0, _helpersJs.store)("studentList", studentList);
+    alert(`Successful created new Student :${fullname}`);
+    console.log("add th\xe0nh c\xf4ng");
+}
+(0, _helpersJs.getEle)("#deteleStudent").addEventListener("click", (event)=>{
+    console.log(event.target.value);
+    console.log("đ\xe3 x\xf3a");
+});
+function deleteStudent(code) {
+    console.log("đ\xe3 x\xf3a");
+// studentList = studentList.filter((student) => {
+//     return student.code !== code;
+// });
+// renderStudent(studentList);
+// store('studentList',studentList);
+// renderStudent(studentList);
+// store('studentList',studentList);
+}
 
-},{"./constructor.js":"ln1nT"}],"ln1nT":[function(require,module,exports) {
+},{"./constructor.js":"ln1nT","./helpers.js":"hGI1E","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./render.js":"6Nkx6"}],"ln1nT":[function(require,module,exports) {
 // class cha
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -577,10 +621,10 @@ class ListPerson {
 class Student extends ListPerson {
     constructor(code, fullname, address, email, math, physical, chemistry, type){
         super(code, fullname, address, email);
-        this.math = math;
-        this.physical = physical;
-        this.chemistry = chemistry;
-        this.type = "Student";
+        this.math = +math;
+        this.physical = +physical;
+        this.chemistry = +chemistry;
+        this.type = type;
     }
     calcMedium() {
         return (this.math + this.physical + this.chemistry) / 3;
@@ -637,6 +681,65 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}]},["9tRox","1SICI"], "1SICI", "parcelRequirebf8c")
+},{}],"hGI1E":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+// ================ Helpers ===================
+parcelHelpers.export(exports, "getEle", ()=>getEle);
+// lưu localstory
+parcelHelpers.export(exports, "store", ()=>store);
+// lấy thông tin giỏ hàng từ local
+parcelHelpers.export(exports, "getStore", ()=>getStore);
+var _constructorJs = require("./constructor.js");
+function getEle(selector) {
+    return document.querySelector(selector);
+}
+function store(key, val) {
+    localStorage.setItem(key, JSON.stringify(val));
+}
+function getStore(key) {
+    const json = localStorage.getItem(key);
+    if (!json) return [];
+    // chuyển Json -> Array
+    const studentList = JSON.parse(json);
+    for(let i = 0; i < studentList.length; i++){
+        const student = studentList[i];
+        studentList[i] = new (0, _constructorJs.Student)(studentList[i].code, studentList[i].fullname, studentList[i].address, studentList[i].email, +studentList[i].math, +studentList[i].physical, +studentList[i].chemistry, studentList[i].type);
+    }
+    return studentList;
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./constructor.js":"ln1nT"}],"6Nkx6":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+// Student
+parcelHelpers.export(exports, "renderStudent", ()=>renderStudent);
+var _helpersJs = require("./helpers.js");
+function renderStudent(studentList) {
+    let html = studentList.reduce((output, student, index)=>{
+        return output + `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${student.fullname}</td>
+                <td>${student.address}</td>
+                <td>${student.code}</td>
+                <td>${student.email}</td>
+                <td>${student.math}</td>
+                <td>${student.physical}</td>
+                <td>${student.chemistry}</td>
+                <td>${student.calcMedium()}</td>
+                <td>
+                    <button class="btn btn-primary">Sửa
+                    </button>
+                    <button class="btn btn-danger" id='deteleStudent' value="${student.code}">Xoá
+                    </button>
+                </td>
+            </tr>
+            `;
+    }, "");
+    (0, _helpersJs.getEle)("#tblStudentList").innerHTML = html;
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./helpers.js":"hGI1E"}]},["9tRox","1SICI"], "1SICI", "parcelRequirebf8c")
 
 //# sourceMappingURL=index.18dbc454.js.map

@@ -98,7 +98,7 @@
                   <div class="row">
                     <div class="col-md-8">
                       <!-- BEGIN BUTTOM THÊM Student -->
-                      <button id="btnThemSP" class="btn btn-success" data-toggle="modal" data-target="#StudentModal">
+                      <button id="btnAddStudent" class="btn btn-success" data-toggle="modal" data-target="#StudentModal">
                         <i class="fa fa-plus mr-1"></i>
                         Thêm Mới
                       </button>
@@ -116,7 +116,7 @@
                     </div>
                   </div>
                   <div class="clear-fix"></div>
-                  <div class="tblSanPham" id="tblSanPham">
+                  <div class="tblSanPham" id="tblStudent">
                     <!-- BEGIN TABLE SẢN PHẨM -->
                     <table class="table table-bordered">
                       <thead>
@@ -131,7 +131,9 @@
                         <th>Medium</th>
                         <th>Action</th>
                       </thead>
-                      <tbody id="tblDanhSachSP"></tbody>
+                      <tbody id="tblStudentList">
+
+                      </tbody>
                     </table>
                     <!-- END TABLE SẢN PHẨM -->
                   </div>
@@ -153,24 +155,30 @@
                     <!-- Modal body -->
                     <div class="modal-body">
                       <div class="form-group">
+                        <label>Code</label>
+                        <input id="CodeStudent" class="form-control" placeholder="Nhập vào hình sản phẩm">
+                      </div>
+                      <div class="form-group">
                         <label>Full name</label>
-                        <input id="FullName" class="form-control" placeholder="Nhập vào tên sản phẩm">
+                        <input id="FullNameStudent" class="form-control" placeholder="">
                       </div>
                       <div class="form-group">
                         <label>Address</label>
-                        <input id="Address" class="form-control" placeholder="Nhập vào giá">
+                        <input id="AddressStudent" class="form-control" placeholder="Nhập vào giá">
                       </div>             
-                      <div class="form-group">
-                        <label>Code</label>
-                        <input id="Code" class="form-control" placeholder="Nhập vào hình sản phẩm">
-                      </div>
+                      
                       <div class="form-group">
                         <label for="">Email</label>
-                        <input id="Email" class="form-control" placeholder="Nhập vào hình sản phẩm">
+                        <input id="EmailStudent" class="form-control" placeholder="Nhập vào hình sản phẩm">
                       </div>
+                      
                       <div class="form-group">
                         <label>Math</label>
                         <input id="Math" class="form-control" placeholder="Nhập vào hình sản phẩm">
+                      </div>
+                      <div class="form-group">
+                        <label>Physical</label>
+                        <input id="Physical" class="form-control" placeholder="Nhập vào hình sản phẩm">
                       </div>
                       <div class="form-group">
                         <label>Chemistry</label>
@@ -178,7 +186,10 @@
                       </div>
                     </div>
                     <!-- Modal footer -->
-                    <div class="modal-footer"></div>
+                    <div class="modal-footer-Student d-flex justify-content-end m-2">
+                      <button class="btn btn-secondary" data-dismiss="modal" id="cancle">Cancle</button>
+                      <button class="btn btn-success ml-2" id="addStudent">Add</button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -199,7 +210,7 @@
                   <div class="row">
                     <div class="col-md-8">
                       <!-- BEGIN BUTTOM THÊM Employee -->
-                      <button id="btnThemSP" class="btn btn-success" data-toggle="modal" data-target="#EmployeeModal">
+                      <button id="btnAddEmployee" class="btn btn-success" data-toggle="modal" data-target="#EmployeeModal">
                         <i class="fa fa-plus mr-1"></i>
                         Thêm Mới
                       </button>
@@ -232,7 +243,9 @@
                         <th>Salary</th>
                         <th>Action</th>
                       </thead>
-                      <tbody id="tblDanhSachSP"></tbody>
+                      <tbody id="tblDanhSachSP">
+
+                      </tbody>
                     </table>
                     <!-- END TABLE SẢN PHẨM -->
                   </div>
@@ -255,24 +268,23 @@
                     <div class="modal-body">
                       <div class="form-group">
                         <label>Full name</label>
-                        <input id="FullName" class="form-control" placeholder="Nhập vào tên sản phẩm">
+                        <input id="FullNameEmployee" class="form-control" placeholder="Nhập vào tên sản phẩm">
                       </div>
                       <div class="form-group">
                         <label>Address</label>
-                        <input id="Address" class="form-control" placeholder="Nhập vào giá">
+                        <input id="AddressEmployee" class="form-control" placeholder="Nhập vào giá">
                       </div>             
-                      <div class="form-group">
+                      <!-- <div class="form-group">
                         <label>Code</label>
-                        <input id="Code" class="form-control" placeholder="Nhập vào hình sản phẩm">
-                      </div>
+                        <input
+                          id="Code"
+                          class="form-control"
+                          placeholder="Nhập vào hình sản phẩm"
+                        />
+                      </div> -->
                       <div class="form-group">
                         <label for="">Email</label>
-                        <input id="Email" class="form-control" placeholder="Nhập vào hình sản phẩm">
-                        <!-- <select class="form-control" id="loaiSP">
-                          <option value="phone">Phone</option>
-                          <option value="laptop">Laptop</option>
-                          <option value="other">Other</option>
-                        </select> -->
+                        <input id="EmailEmployee" class="form-control" placeholder="Nhập vào hình sản phẩm">
                       </div>
                       <div class="form-group">
                         <label>Working day</label>
@@ -282,25 +294,12 @@
                         <label>Daily wage</label>
                         <input id="Dailywage" class="form-control" placeholder="Nhập vào hình sản phẩm">
                       </div>
-                      <!-- <div class="form-group">
-                        <label>Medium</label>
-                        <input
-                          id="Medium"
-                          class="form-control"
-                          placeholder="Nhập vào hình sản phẩm"
-                        />
-                      </div> -->
-                      <!-- <div class="form-group">
-                        <label>Type</label>
-                        <select class="form-control" id="Type">
-                          <option value="phone">Student</option>
-                          <option value="laptop">Employee</option>
-                          <option value="other">Customer</option>
-                        </select>
-                      </div> -->
                     </div>
                     <!-- Modal footer -->
-                    <div class="modal-footer"></div>
+                    <div class="modal-footer-Employee d-flex justify-content-end m-2">
+                      <button class="btn btn-secondary" data-dismiss="modal" id="cancle">Cancle</button>
+                      <button class="btn btn-success ml-2" id="addEmployee" onclick="addx()">Add</button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -321,7 +320,7 @@
                   <div class="row">
                     <div class="col-md-8">
                       <!-- BEGIN BUTTOM THÊM Customer -->
-                      <button id="btnThemSP" class="btn btn-success" data-toggle="modal" data-target="#CustomerModal">
+                      <button id="btnAddCustomer" class="btn btn-success" data-toggle="modal" data-target="#CustomerModal">
                         <i class="fa fa-plus mr-1"></i>
                         Thêm Mới
                       </button>
@@ -376,19 +375,23 @@
                     <div class="modal-body">
                       <div class="form-group">
                         <label>Full name</label>
-                        <input id="FullName" class="form-control" placeholder="Nhập vào tên sản phẩm">
+                        <input id="FullNameCustomer" class="form-control" placeholder="Nhập vào tên sản phẩm">
                       </div>
                       <div class="form-group">
                         <label>Address</label>
-                        <input id="Address" class="form-control" placeholder="Nhập vào giá">
+                        <input id="AddressCustomer" class="form-control" placeholder="Nhập vào giá">
                       </div>             
-                      <div class="form-group">
+                      <!-- <div class="form-group">
                         <label>Code</label>
-                        <input id="Code" class="form-control" placeholder="Nhập vào hình sản phẩm">
-                      </div>
+                        <input
+                          id="Code"
+                          class="form-control"
+                          placeholder="Nhập vào hình sản phẩm"
+                        />
+                      </div> -->
                       <div class="form-group">
                         <label for="">Email</label>
-                        <input id="Email" class="form-control" placeholder="Nhập vào hình sản phẩm">
+                        <input id="EmailCustomer" class="form-control" placeholder="Nhập vào hình sản phẩm">
                       </div>
                       <div class="form-group">
                         <label>Company name</label>
@@ -404,7 +407,10 @@
                       </div>
                     </div>
                     <!-- Modal footer -->
-                    <div class="modal-footer"></div>
+                    <div class="modal-footer-Customer d-flex justify-content-end m-2">
+                      <button class="btn btn-secondary" data-dismiss="modal" id="cancle">Cancle</button>
+                      <button class="btn btn-success ml-2" id="addCustomer">Add</button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -420,6 +426,5 @@
 
     <script type="module" src="node_modules/bootstrap/dist/bootstrap.bundle.min.js"></script> -->
     <script src="/index.18dbc454.js" defer=""></script>
-
 </body>
 </html>
