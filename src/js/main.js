@@ -1,59 +1,56 @@
 import {getEle,store, getStore} from "./helpers.js";
-import {Student, Employee, Customer} from "./constructor.js";
 import {renderStudent} from "./render.js";
+import {addStudent, deleteStudent, searchStudent, selectStudent, updateStudent, resetFormStudent} from './studentfunc.js';
 
 export let studentList = getStore('studentList');
 export let employeeList = [];
 export let customerList = [];
 
 renderStudent(studentList);
-console.log('getStore: ',getStore('studentList'), typeof getStore('studentList'));
 
-getEle('#addStudent').addEventListener('click', addStudent);
-function addStudent() {
-    // DOM
-    let code = getEle('#CodeStudent').value;
-    let fullname = getEle('#FullNameStudent').value;
-    let address = getEle('#AddressStudent').value;
-    let email = getEle('#EmailStudent').value;
-    let math = getEle('#Math').value;
-    let physical = getEle('#Physical').value;
-    let chemistry = getEle('#Chemistry').value;
-    let type = 'Student';
-    const studentAdd =  new Student (code,fullname,address,email,math,physical,chemistry,type);
-    studentList.push(studentAdd);
-    renderStudent(studentList);
-    store('studentList',studentList);
-    alert(`Successful created new Student :${fullname}`);
-
-    console.log('add thành công');
-};
-
-getEle('#deteleStudent').addEventListener('click', (event) => {
-    console.log(event.target.value);
-    console.log('đã xóa');
-
+// DOM add Student
+getEle('#btnAddStudent').addEventListener('click', () => {
+    let html = `
+        <button class="btn btn-secondary" data-dismiss="modal" id="cancle" >Cancle</button>
+        <button class="btn btn-success ml-2" id="addStudent" >Created</button>
+    `;
+    getEle('.modal-footer-Student').innerHTML = html;
 });
 
-function deleteStudent(code) {
-    console.log('đã xóa');
 
-    // studentList = studentList.filter((student) => {
-    //     return student.code !== code;
-    // });
-    // renderStudent(studentList);
-    // store('studentList',studentList);
-    // renderStudent(studentList);
-    // store('studentList',studentList);
-}
+// delete Student
 
+getEle('#tblStudentList').addEventListener('click', (evt) => {
+    if(evt.target.innerHTML === 'Delete') {
+        studentList = deleteStudent(evt.target.getAttribute("data-id"));
+        store('studentList',studentList);
+        renderStudent(studentList);
+    } else if (evt.target.innerHTML === 'Update') {
+        selectStudent(evt.target.getAttribute("data-id"));
+    }
+});
 
+// search
+getEle('#txtSearchStudent').addEventListener('keydown', (evt) => {
+    setTimeout(() => {
+        const searchValue = evt.target.value;
+        renderStudent(searchStudent(searchValue));
+      }, 1000);
+})
 
+getEle('.modal-footer-Student').addEventListener('click', (evt) => {
+    // Created Student
+    if(evt.target.innerHTML === 'Created') {
+        console.log('Created');
+        studentList = addStudent();
+        renderStudent(studentList);
+        store('studentList',studentList);
+    } ;
 
-
-
-
-
-
-
-
+    // Update Student
+    if(evt.target.innerHTML === 'Update') {
+        studentList = updateStudent(studentList);
+        renderStudent(studentList);
+        store('studentList',studentList);
+    } ;
+});

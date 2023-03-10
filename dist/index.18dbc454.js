@@ -563,47 +563,80 @@ parcelHelpers.export(exports, "studentList", ()=>studentList);
 parcelHelpers.export(exports, "employeeList", ()=>employeeList);
 parcelHelpers.export(exports, "customerList", ()=>customerList);
 var _helpersJs = require("./helpers.js");
-var _constructorJs = require("./constructor.js");
 var _renderJs = require("./render.js");
+var _studentfuncJs = require("./studentfunc.js");
 let studentList = (0, _helpersJs.getStore)("studentList");
 let employeeList = [];
 let customerList = [];
 (0, _renderJs.renderStudent)(studentList);
-console.log("getStore: ", (0, _helpersJs.getStore)("studentList"), typeof (0, _helpersJs.getStore)("studentList"));
-(0, _helpersJs.getEle)("#addStudent").addEventListener("click", addStudent);
-function addStudent() {
-    // DOM
-    let code = (0, _helpersJs.getEle)("#CodeStudent").value;
-    let fullname = (0, _helpersJs.getEle)("#FullNameStudent").value;
-    let address = (0, _helpersJs.getEle)("#AddressStudent").value;
-    let email = (0, _helpersJs.getEle)("#EmailStudent").value;
-    let math = (0, _helpersJs.getEle)("#Math").value;
-    let physical = (0, _helpersJs.getEle)("#Physical").value;
-    let chemistry = (0, _helpersJs.getEle)("#Chemistry").value;
-    let type = "Student";
-    const studentAdd = new (0, _constructorJs.Student)(code, fullname, address, email, math, physical, chemistry, type);
-    studentList.push(studentAdd);
-    (0, _renderJs.renderStudent)(studentList);
-    (0, _helpersJs.store)("studentList", studentList);
-    alert(`Successful created new Student :${fullname}`);
-    console.log("add th\xe0nh c\xf4ng");
-}
-(0, _helpersJs.getEle)("#deteleStudent").addEventListener("click", (event)=>{
-    console.log(event.target.value);
-    console.log("đ\xe3 x\xf3a");
+// DOM add Student
+(0, _helpersJs.getEle)("#btnAddStudent").addEventListener("click", ()=>{
+    let html = `
+        <button class="btn btn-secondary" data-dismiss="modal" id="cancle" >Cancle</button>
+        <button class="btn btn-success ml-2" id="addStudent" >Created</button>
+    `;
+    (0, _helpersJs.getEle)(".modal-footer-Student").innerHTML = html;
 });
-function deleteStudent(code) {
-    console.log("đ\xe3 x\xf3a");
-// studentList = studentList.filter((student) => {
-//     return student.code !== code;
-// });
-// renderStudent(studentList);
-// store('studentList',studentList);
-// renderStudent(studentList);
-// store('studentList',studentList);
+// delete Student
+(0, _helpersJs.getEle)("#tblStudentList").addEventListener("click", (evt)=>{
+    if (evt.target.innerHTML === "Delete") {
+        studentList = (0, _studentfuncJs.deleteStudent)(evt.target.getAttribute("data-id"));
+        (0, _helpersJs.store)("studentList", studentList);
+        (0, _renderJs.renderStudent)(studentList);
+    } else if (evt.target.innerHTML === "Update") (0, _studentfuncJs.selectStudent)(evt.target.getAttribute("data-id"));
+});
+// search
+(0, _helpersJs.getEle)("#txtSearchStudent").addEventListener("keydown", (evt)=>{
+    setTimeout(()=>{
+        const searchValue = evt.target.value;
+        (0, _renderJs.renderStudent)((0, _studentfuncJs.searchStudent)(searchValue));
+    }, 1000);
+});
+(0, _helpersJs.getEle)(".modal-footer-Student").addEventListener("click", (evt)=>{
+    // Created Student
+    if (evt.target.innerHTML === "Created") {
+        console.log("Created");
+        studentList = (0, _studentfuncJs.addStudent)();
+        (0, _renderJs.renderStudent)(studentList);
+        (0, _helpersJs.store)("studentList", studentList);
+    }
+    // Update Student
+    if (evt.target.innerHTML === "Update") {
+        studentList = (0, _studentfuncJs.updateStudent)(studentList);
+        (0, _renderJs.renderStudent)(studentList);
+        (0, _helpersJs.store)("studentList", studentList);
+    }
+});
+
+},{"./helpers.js":"hGI1E","./render.js":"6Nkx6","./studentfunc.js":"kwUO3","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hGI1E":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+// ================ Helpers ===================
+parcelHelpers.export(exports, "getEle", ()=>getEle);
+// lưu localstory
+parcelHelpers.export(exports, "store", ()=>store);
+// lấy thông tin giỏ hàng từ local
+parcelHelpers.export(exports, "getStore", ()=>getStore);
+var _constructorJs = require("./constructor.js");
+function getEle(selector) {
+    return document.querySelector(selector);
+}
+function store(key, val) {
+    localStorage.setItem(key, JSON.stringify(val));
+}
+function getStore(key) {
+    const json = localStorage.getItem(key);
+    if (!json) return [];
+    // chuyển Json -> Array
+    const studentList = JSON.parse(json);
+    for(let i = 0; i < studentList.length; i++){
+        const student = studentList[i];
+        studentList[i] = new (0, _constructorJs.Student)(studentList[i].code, studentList[i].fullname, studentList[i].address, studentList[i].email, +studentList[i].math, +studentList[i].physical, +studentList[i].chemistry, studentList[i].type);
+    }
+    return studentList;
 }
 
-},{"./constructor.js":"ln1nT","./helpers.js":"hGI1E","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./render.js":"6Nkx6"}],"ln1nT":[function(require,module,exports) {
+},{"./constructor.js":"ln1nT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ln1nT":[function(require,module,exports) {
 // class cha
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -681,35 +714,7 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"hGI1E":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-// ================ Helpers ===================
-parcelHelpers.export(exports, "getEle", ()=>getEle);
-// lưu localstory
-parcelHelpers.export(exports, "store", ()=>store);
-// lấy thông tin giỏ hàng từ local
-parcelHelpers.export(exports, "getStore", ()=>getStore);
-var _constructorJs = require("./constructor.js");
-function getEle(selector) {
-    return document.querySelector(selector);
-}
-function store(key, val) {
-    localStorage.setItem(key, JSON.stringify(val));
-}
-function getStore(key) {
-    const json = localStorage.getItem(key);
-    if (!json) return [];
-    // chuyển Json -> Array
-    const studentList = JSON.parse(json);
-    for(let i = 0; i < studentList.length; i++){
-        const student = studentList[i];
-        studentList[i] = new (0, _constructorJs.Student)(studentList[i].code, studentList[i].fullname, studentList[i].address, studentList[i].email, +studentList[i].math, +studentList[i].physical, +studentList[i].chemistry, studentList[i].type);
-    }
-    return studentList;
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./constructor.js":"ln1nT"}],"6Nkx6":[function(require,module,exports) {
+},{}],"6Nkx6":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 // Student
@@ -729,10 +734,9 @@ function renderStudent(studentList) {
                 <td>${student.chemistry}</td>
                 <td>${student.calcMedium()}</td>
                 <td>
-                    <button class="btn btn-primary">Sửa
-                    </button>
-                    <button class="btn btn-danger" id='deteleStudent' value="${student.code}">Xoá
-                    </button>
+                    <button class="btn btn-primary" data-toggle="modal"
+                    data-target="#StudentModal" data-id="${student.code}">Update</button>
+                    <button class="btn btn-danger" data-id="${student.code}">Delete</button>
                 </td>
             </tr>
             `;
@@ -740,6 +744,111 @@ function renderStudent(studentList) {
     (0, _helpersJs.getEle)("#tblStudentList").innerHTML = html;
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./helpers.js":"hGI1E"}]},["9tRox","1SICI"], "1SICI", "parcelRequirebf8c")
+},{"./helpers.js":"hGI1E","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kwUO3":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+// add student
+parcelHelpers.export(exports, "addStudent", ()=>addStudent);
+// delete student
+parcelHelpers.export(exports, "deleteStudent", ()=>deleteStudent);
+// select student
+parcelHelpers.export(exports, "selectStudent", ()=>selectStudent);
+// update student
+parcelHelpers.export(exports, "updateStudent", ()=>updateStudent);
+parcelHelpers.export(exports, "searchStudent", ()=>searchStudent);
+// reset form student
+parcelHelpers.export(exports, "resetFormStudent", ()=>resetFormStudent);
+var _helpersJs = require("./helpers.js");
+var _constructorJs = require("./constructor.js");
+var _mainJs = require("./main.js");
+function addStudent() {
+    // DOM
+    let code = (0, _helpersJs.getEle)("#CodeStudent").value;
+    let fullname = (0, _helpersJs.getEle)("#FullNameStudent").value;
+    let address = (0, _helpersJs.getEle)("#AddressStudent").value;
+    let email = (0, _helpersJs.getEle)("#EmailStudent").value;
+    let math = (0, _helpersJs.getEle)("#Math").value;
+    let physical = (0, _helpersJs.getEle)("#Physical").value;
+    let chemistry = (0, _helpersJs.getEle)("#Chemistry").value;
+    let type = "Student";
+    const studentAdd = new (0, _constructorJs.Student)(code, fullname, address, email, math, physical, chemistry, type);
+    (0, _mainJs.studentList).push(studentAdd);
+    alert(`Successful created new Student :${fullname}`);
+    return 0, _mainJs.studentList;
+}
+function deleteStudent(code) {
+    studentListAfter = (0, _mainJs.studentList).filter((student)=>{
+        if (student.code == code) alert(`Successful delete Student :${student.fullname}`);
+        return student.code !== code;
+    });
+    return studentListAfter;
+}
+function selectStudent(code) {
+    let studentSelect = (0, _mainJs.studentList).find((student)=>{
+        return student.code === code;
+    });
+    (0, _helpersJs.getEle)("#CodeStudent").value = studentSelect.code;
+    (0, _helpersJs.getEle)("#FullNameStudent").value = studentSelect.fullname;
+    (0, _helpersJs.getEle)("#AddressStudent").value = studentSelect.address;
+    (0, _helpersJs.getEle)("#EmailStudent").value = studentSelect.email;
+    (0, _helpersJs.getEle)("#Math").value = studentSelect.math;
+    (0, _helpersJs.getEle)("#Physical").value = studentSelect.physical;
+    (0, _helpersJs.getEle)("#Chemistry").value = studentSelect.chemistry;
+    let html = `
+        <button class="btn btn-secondary" data-dismiss="modal" id="cancle" >Cancle</button>
+        <button class="btn btn-success ml-2" id="updateStudent" >Update</button>
+    `;
+    (0, _helpersJs.getEle)(".modal-footer-Student").innerHTML = html;
+}
+function updateStudent(studentList) {
+    let code = (0, _helpersJs.getEle)("#CodeStudent").value;
+    let fullname = (0, _helpersJs.getEle)("#FullNameStudent").value;
+    let address = (0, _helpersJs.getEle)("#AddressStudent").value;
+    let email = (0, _helpersJs.getEle)("#EmailStudent").value;
+    let math = (0, _helpersJs.getEle)("#Math").value;
+    let physical = (0, _helpersJs.getEle)("#Physical").value;
+    let chemistry = (0, _helpersJs.getEle)("#Chemistry").value;
+    let type = "Student";
+    const studentUpdate = new (0, _constructorJs.Student)(code, fullname, address, email, math, physical, chemistry, type);
+    let index = studentList.findIndex((studentUpdate)=>{
+        return studentUpdate.code === code;
+    });
+    studentList[index] = studentUpdate;
+    return studentList;
+}
+function searchStudent(searchName) {
+    let newStudent = (0, _mainJs.studentList).filter((student)=>{
+        let typeStudent = student.fullname.toLowerCase();
+        searchName = searchName.toLowerCase();
+        return typeStudent.indexOf(searchName) !== -1;
+    });
+    return newStudent;
+}
+function resetFormStudent() {
+    (0, _helpersJs.getEle)("#CodeStudent").value = "";
+    (0, _helpersJs.getEle)("#FullNameStudent").value = "";
+    (0, _helpersJs.getEle)("#AddressStudent").value = "";
+    (0, _helpersJs.getEle)("#EmailStudent").value = "";
+    (0, _helpersJs.getEle)("#Math").value = "";
+    (0, _helpersJs.getEle)("#Physical").value = "";
+    (0, _helpersJs.getEle)("#Chemistry").value = "";
+}
+let sortArray;
+function sortedUp() {
+    function compare(a, b) {
+        return a.price - b.price;
+    }
+    sortArray = productsList.sort(compare);
+    renderProducts(sortArray);
+}
+function sorteDown() {
+    function compare(a, b) {
+        return b.price - a.price;
+    }
+    sortArray = productsList.sort(compare);
+    renderProducts(sortArray);
+}
+
+},{"./helpers.js":"hGI1E","./constructor.js":"ln1nT","./main.js":"1SICI","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["9tRox","1SICI"], "1SICI", "parcelRequirebf8c")
 
 //# sourceMappingURL=index.18dbc454.js.map

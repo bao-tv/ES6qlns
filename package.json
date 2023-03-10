@@ -1,16 +1,10 @@
-{
-    "name": "quanlynhansu",
-    "version": "1.0.0",
-    "description": "",
-    "scripts": {
-        "start": "parcel src/index.html",
-        "build": "parcel build src/index.html"
-    },
-    "author": "",
-    "license": "ISC",
-    "devDependencies": {
-        "@parcel/transformer-html": "^2.8.3",
-        "@parcel/transformer-sass": "^2.8.3",
-        "parcel": "^2.8.3"
-    }
+{"name": "quanlynhansu",
+"source": "src/index.html",
+"scripts": {
+  "start": "parcel",
+  "build": "parcel build"
+},
+  "dependencies": {
+    "parcel": "^2.8.3"
+  }
 }

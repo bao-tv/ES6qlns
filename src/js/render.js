@@ -16,10 +16,9 @@ export function renderStudent(studentList) {
                 <td>${student.chemistry}</td>
                 <td>${student.calcMedium()}</td>
                 <td>
-                    <button class="btn btn-primary">Sửa
-                    </button>
-                    <button class="btn btn-danger" id='deteleStudent' value="${student.code}">Xoá
-                    </button>
+                    <button class="btn btn-primary" data-toggle="modal"
+                    data-target="#StudentModal" data-id="${student.code}">Update</button>
+                    <button class="btn btn-danger" data-id="${student.code}">Delete</button>
                 </td>
             </tr>
             `
