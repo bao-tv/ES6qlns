@@ -12,15 +12,16 @@ class ListPerson {
 export class Student extends ListPerson {
     constructor(code,fullname, address, email, math, physical, chemistry, type) {
         super(code,fullname, address, email);
-        this.math = math;
-        this.physical = physical;
-        this.chemistry = chemistry;
-        this.type = 'Student';
+        this.math = +math;
+        this.physical = +physical;
+        this.chemistry = +chemistry;
+        this.type = type;
     }
     calcMedium () {
         return (this.math + this.physical + this.chemistry) / 3;
     };
 };
+
 
 export class Employee extends ListPerson {
     constructor(code,fullname, address, email, workingday, dailywage, type) {
