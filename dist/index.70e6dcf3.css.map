@@ -1,0 +1,1 @@
+{"mappings":"AAAA","sources":["src/SCSS/main.scss"],"sourcesContent":[".notifi{\n    color: #dc3545;\n    font-size: 12px;\n    margin-left:12px;\n}"],"names":[],"version":3,"file":"index.70e6dcf3.css.map","sourceRoot":"/__parcel_source_root/"}

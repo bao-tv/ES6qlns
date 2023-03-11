@@ -1,21 +1,21 @@
 
 // class cha
-class ListPerson {
-    constructor(code,fullname, address, email) {
+export class Person { 
+    constructor(code,fullname, address, email, type) {
         this.code = code;
         this.fullname = fullname;
         this.address = address;
         this.email = email;
+        this.type = type;
     }
 };
 
-export class Student extends ListPerson {
+export class Student extends Person {
     constructor(code,fullname, address, email, math, physical, chemistry, type) {
-        super(code,fullname, address, email);
+        super(code,fullname, address, email, type);
         this.math = +math;
         this.physical = +physical;
         this.chemistry = +chemistry;
-        this.type = type;
     }
     calcMedium () {
         return (this.math + this.physical + this.chemistry) / 3;
@@ -23,12 +23,11 @@ export class Student extends ListPerson {
 };
 
 
-export class Employee extends ListPerson {
+export class Employee extends Person {
     constructor(code,fullname, address, email, workingday, dailywage, type) {
-        super(code,fullname, address, email);
-        this.workingday = workingday;
-        this.dailywage = dailywage;
-        this.type = 'Employee';
+        super(code,fullname, address, email, type);
+        this.workingday = +workingday;
+        this.dailywage = +dailywage;
     }
 
     calcSalary() {
@@ -36,13 +35,12 @@ export class Employee extends ListPerson {
     }
 };
 
-export class Customer extends ListPerson {
+export class Customer extends Person {
     constructor(code,fullname, address, email, companyname, totalinvoice, rank, type) {
-        super(code,fullname, address, email);
+        super(code,fullname, address, email, type);
         this.companyname = companyname;
-        this.totalinvoice = totalinvoice;
+        this.totalinvoice = +totalinvoice;
         this.rank = rank;
-        this.type = 'Customer';
     }
 }
 

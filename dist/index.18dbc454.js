@@ -562,53 +562,192 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "studentList", ()=>studentList);
 parcelHelpers.export(exports, "employeeList", ()=>employeeList);
 parcelHelpers.export(exports, "customerList", ()=>customerList);
+parcelHelpers.export(exports, "listPersons", ()=>listPersons);
 var _helpersJs = require("./helpers.js");
 var _renderJs = require("./render.js");
 var _studentfuncJs = require("./studentfunc.js");
-let studentList = (0, _helpersJs.getStore)("studentList");
-let employeeList = [];
-let customerList = [];
+var _employeefunc = require("./employeefunc");
+var _customerfunc = require("./customerfunc");
+let studentList = (0, _helpersJs.getStoreStudent)("studentList");
+let employeeList = (0, _helpersJs.getStoreEmployee)("employeeList");
+let customerList = (0, _helpersJs.getStoreCustomer)("customerList");
+let listPersons = (0, _helpersJs.getStore)("listPersons");
 (0, _renderJs.renderStudent)(studentList);
-// DOM add Student
+(0, _renderJs.renderEmployee)(employeeList);
+(0, _renderJs.renderCustomer)(customerList);
+(0, _renderJs.renderListPersons)(listPersons);
+// =================== Student =========================
+// DOM Created Student
 (0, _helpersJs.getEle)("#btnAddStudent").addEventListener("click", ()=>{
     let html = `
-        <button class="btn btn-secondary" data-dismiss="modal" id="cancle" >Cancle</button>
-        <button class="btn btn-success ml-2" id="addStudent" >Created</button>
+    <button class="btn btn-secondary" data-dismiss="modal" id="cancle" >Cancle</button>
+    <button class="btn btn-success ml-2" >Created</button>
     `;
     (0, _helpersJs.getEle)(".modal-footer-Student").innerHTML = html;
+});
+(0, _helpersJs.getEle)(".modal-footer-Student").addEventListener("click", (evt)=>{
+    // Created Student
+    if (evt.target.innerHTML === "Created") {
+        (0, _studentfuncJs.addStudent)();
+        (0, _renderJs.renderStudent)(studentList);
+        (0, _renderJs.renderListPersons)(listPersons);
+    }
+    // Update Student
+    if (evt.target.innerHTML === "Update") {
+        (0, _studentfuncJs.updateStudent)();
+        (0, _renderJs.renderStudent)(studentList);
+        (0, _renderJs.renderListPersons)(listPersons);
+    }
+    if (evt.target.innerHTML === "Cancle") (0, _studentfuncJs.resetFormStudent)();
 });
 // delete Student
 (0, _helpersJs.getEle)("#tblStudentList").addEventListener("click", (evt)=>{
     if (evt.target.innerHTML === "Delete") {
-        studentList = (0, _studentfuncJs.deleteStudent)(evt.target.getAttribute("data-id"));
-        (0, _helpersJs.store)("studentList", studentList);
+        (0, _studentfuncJs.deleteStudent)(evt.target.getAttribute("data-id"));
         (0, _renderJs.renderStudent)(studentList);
+        (0, _renderJs.renderListPersons)(listPersons);
     } else if (evt.target.innerHTML === "Update") (0, _studentfuncJs.selectStudent)(evt.target.getAttribute("data-id"));
 });
 // search
 (0, _helpersJs.getEle)("#txtSearchStudent").addEventListener("keydown", (evt)=>{
     setTimeout(()=>{
         const searchValue = evt.target.value;
-        (0, _renderJs.renderStudent)((0, _studentfuncJs.searchStudent)(searchValue));
+        (0, _renderJs.renderStudent)((0, _helpersJs.search)(searchValue, studentList));
     }, 1000);
 });
-(0, _helpersJs.getEle)(".modal-footer-Student").addEventListener("click", (evt)=>{
-    // Created Student
+// arrange A-Z or Z-A
+(0, _helpersJs.getEle)("#studentSort").addEventListener("change", (evt)=>{
+    if (evt.target.value == 1) {
+        let sort = (0, _helpersJs.sortdUp)(studentList);
+        (0, _renderJs.renderStudent)(sort);
+    }
+    if (evt.target.value == 2) {
+        let sort = (0, _helpersJs.sortDown)(studentList);
+        (0, _renderJs.renderStudent)(sort);
+    }
+});
+// =================== Employee =========================
+// DOM Created Employee
+(0, _helpersJs.getEle)("#btnAddEmployee").addEventListener("click", ()=>{
+    console.log("click employee");
+    let html = `
+    <button class="btn btn-secondary" data-dismiss="modal" id="cancle" >Cancle</button>
+    <button class="btn btn-success ml-2" >Created</button>
+    `;
+    (0, _helpersJs.getEle)(".modal-footer-Employee").innerHTML = html;
+});
+(0, _helpersJs.getEle)(".modal-footer-Employee").addEventListener("click", (evt)=>{
+    // Created Employee
     if (evt.target.innerHTML === "Created") {
-        console.log("Created");
-        studentList = (0, _studentfuncJs.addStudent)();
-        (0, _renderJs.renderStudent)(studentList);
-        (0, _helpersJs.store)("studentList", studentList);
+        (0, _employeefunc.addEmployee)();
+        (0, _renderJs.renderEmployee)(employeeList);
+        (0, _renderJs.renderListPersons)(listPersons);
     }
     // Update Student
     if (evt.target.innerHTML === "Update") {
-        studentList = (0, _studentfuncJs.updateStudent)(studentList);
-        (0, _renderJs.renderStudent)(studentList);
-        (0, _helpersJs.store)("studentList", studentList);
+        (0, _employeefunc.updateEmployee)();
+        (0, _renderJs.renderEmployee)(employeeList);
+        (0, _renderJs.renderListPersons)(listPersons);
+    }
+    if (evt.target.innerHTML === "Cancle") (0, _employeefunc.resetFormEmployee)();
+});
+// // delete Employee and select Employee
+(0, _helpersJs.getEle)("#tblEmployeeList").addEventListener("click", (evt)=>{
+    if (evt.target.innerHTML === "Delete") {
+        (0, _employeefunc.deleteEmployee)(evt.target.getAttribute("data-id"));
+        (0, _renderJs.renderEmployee)(employeeList);
+        (0, _renderJs.renderListPersons)(listPersons);
+    } else if (evt.target.innerHTML === "Update") (0, _employeefunc.selectEmployee)(evt.target.getAttribute("data-id"));
+});
+// // search
+(0, _helpersJs.getEle)("#txtSearchEmployee").addEventListener("keydown", (evt)=>{
+    setTimeout(()=>{
+        const searchValue = evt.target.value;
+        (0, _renderJs.renderEmployee)((0, _helpersJs.search)(searchValue, employeeList));
+    }, 1000);
+});
+// // arrange A-Z or Z-A
+(0, _helpersJs.getEle)("#employeeSort").addEventListener("change", (evt)=>{
+    if (evt.target.value == 1) {
+        let sort = (0, _helpersJs.sortdUp)(employeeList);
+        (0, _renderJs.renderEmployee)(sort);
+    }
+    if (evt.target.value == 2) {
+        let sort = (0, _helpersJs.sortDown)(employeeList);
+        (0, _renderJs.renderEmployee)(sort);
+    }
+});
+// =================== Customer =========================
+// DOM Created Customer
+(0, _helpersJs.getEle)("#btnAddCustomer").addEventListener("click", ()=>{
+    let html = `
+    <button class="btn btn-secondary" data-dismiss="modal" id="cancle" >Cancle</button>
+    <button class="btn btn-success ml-2" >Created</button>
+    `;
+    (0, _helpersJs.getEle)(".modal-footer-Customer").innerHTML = html;
+});
+(0, _helpersJs.getEle)(".modal-footer-Customer").addEventListener("click", (evt)=>{
+    // Created Customer
+    if (evt.target.innerHTML === "Created") {
+        (0, _customerfunc.addCustomer)();
+        (0, _renderJs.renderCustomer)(customerList);
+        (0, _renderJs.renderListPersons)(listPersons);
+    }
+    // Update Student
+    if (evt.target.innerHTML === "Update") {
+        (0, _customerfunc.updateCustomer)();
+        (0, _renderJs.renderCustomer)(customerList);
+        (0, _renderJs.renderListPersons)(listPersons);
+    }
+    if (evt.target.innerHTML === "Cancle") (0, _customerfunc.resetFormCustomer)();
+});
+// // // delete Customer and select Customer
+(0, _helpersJs.getEle)("#tblCustomerList").addEventListener("click", (evt)=>{
+    if (evt.target.innerHTML === "Delete") {
+        (0, _customerfunc.deleteCustomer)(evt.target.getAttribute("data-id"));
+        (0, _renderJs.renderCustomer)(customerList);
+        (0, _renderJs.renderListPersons)(listPersons);
+    } else if (evt.target.innerHTML === "Update") (0, _customerfunc.selectCustomer)(evt.target.getAttribute("data-id"));
+});
+// // // search
+(0, _helpersJs.getEle)("#txtSearchCustomer").addEventListener("keydown", (evt)=>{
+    setTimeout(()=>{
+        const searchValue = evt.target.value;
+        (0, _renderJs.renderCustomer)((0, _helpersJs.search)(searchValue, customerList));
+    }, 1000);
+});
+// // // arrange A-Z or Z-A
+(0, _helpersJs.getEle)("#customerSort").addEventListener("change", (evt)=>{
+    if (evt.target.value == 1) {
+        let sort = (0, _helpersJs.sortdUp)(customerList);
+        (0, _renderJs.renderCustomer)(sort);
+    }
+    if (evt.target.value == 2) {
+        let sort = (0, _helpersJs.sortDown)(customerList);
+        (0, _renderJs.renderCustomer)(sort);
+    }
+});
+// =================== ListPeron =========================
+// // search
+(0, _helpersJs.getEle)("#txtSearchListPerson").addEventListener("keydown", (evt)=>{
+    setTimeout(()=>{
+        const searchValue = evt.target.value;
+        (0, _renderJs.renderListPersons)((0, _helpersJs.search)(searchValue, listPersons));
+    }, 1000);
+});
+// // arrange A-Z or Z-A
+(0, _helpersJs.getEle)("#listPersonSort").addEventListener("change", (evt)=>{
+    if (evt.target.value == 1) {
+        let sort = (0, _helpersJs.sortdUp)(listPersons);
+        (0, _renderJs.renderListPersons)(sort);
+    }
+    if (evt.target.value == 2) {
+        let sort = (0, _helpersJs.sortDown)(listPersons);
+        (0, _renderJs.renderListPersons)(sort);
     }
 });
 
-},{"./helpers.js":"hGI1E","./render.js":"6Nkx6","./studentfunc.js":"kwUO3","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hGI1E":[function(require,module,exports) {
+},{"./helpers.js":"hGI1E","./render.js":"6Nkx6","./studentfunc.js":"kwUO3","./employeefunc":"jtQCe","./customerfunc":"hpm2F","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hGI1E":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 // ================ Helpers ===================
@@ -617,6 +756,14 @@ parcelHelpers.export(exports, "getEle", ()=>getEle);
 parcelHelpers.export(exports, "store", ()=>store);
 // lấy thông tin giỏ hàng từ local
 parcelHelpers.export(exports, "getStore", ()=>getStore);
+parcelHelpers.export(exports, "getStoreStudent", ()=>getStoreStudent);
+parcelHelpers.export(exports, "getStoreEmployee", ()=>getStoreEmployee);
+parcelHelpers.export(exports, "getStoreCustomer", ()=>getStoreCustomer);
+parcelHelpers.export(exports, "findI", ()=>findI);
+parcelHelpers.export(exports, "searchStudent", ()=>searchStudent);
+parcelHelpers.export(exports, "search", ()=>search);
+parcelHelpers.export(exports, "sortdUp", ()=>sortdUp);
+parcelHelpers.export(exports, "sortDown", ()=>sortDown);
 var _constructorJs = require("./constructor.js");
 function getEle(selector) {
     return document.querySelector(selector);
@@ -628,59 +775,134 @@ function getStore(key) {
     const json = localStorage.getItem(key);
     if (!json) return [];
     // chuyển Json -> Array
-    const studentList = JSON.parse(json);
-    for(let i = 0; i < studentList.length; i++){
-        const student = studentList[i];
-        studentList[i] = new (0, _constructorJs.Student)(studentList[i].code, studentList[i].fullname, studentList[i].address, studentList[i].email, +studentList[i].math, +studentList[i].physical, +studentList[i].chemistry, studentList[i].type);
+    const personList = JSON.parse(json);
+    for(let i = 0; i < personList.length; i++){
+        const person = personList[i];
+        personList[i] = new (0, _constructorJs.Person)(person.code, person.fullname, person.address, person.email, person.type);
     }
-    return studentList;
+    return personList;
+}
+function getStoreStudent(key) {
+    const json = localStorage.getItem(key);
+    if (!json) return [];
+    // chuyển Json -> Array
+    const studentList1 = JSON.parse(json);
+    for(let i = 0; i < studentList1.length; i++){
+        const student = studentList1[i];
+        studentList1[i] = new (0, _constructorJs.Student)(student.code, student.fullname, student.address, student.email, +student.math, +student.physical, +student.chemistry, student.type);
+    }
+    return studentList1;
+}
+function getStoreEmployee(key) {
+    const json = localStorage.getItem(key);
+    if (!json) return [];
+    // chuyển Json -> Array
+    const employeeList = JSON.parse(json);
+    for(let i = 0; i < employeeList.length; i++){
+        const employee = employeeList[i];
+        employeeList[i] = new (0, _constructorJs.Employee)(employee.code, employee.fullname, employee.address, employee.email, +employee.workingday, +employee.dailywage, employee.type);
+    }
+    return employeeList;
+}
+function getStoreCustomer(key) {
+    const json = localStorage.getItem(key);
+    if (!json) return [];
+    // chuyển Json -> Array
+    const customerList = JSON.parse(json);
+    for(let i = 0; i < customerList.length; i++){
+        const customer = customerList[i];
+        customerList[i] = new (0, _constructorJs.Customer)(customer.code, customer.fullname, customer.address, customer.email, customer.companyname, +customer.totalinvoice, +customer.rank, customer.type);
+    }
+    return customerList;
+}
+function findI(code, List) {
+    let index = List.findIndex((student)=>{
+        return student.code === code;
+    });
+    return index;
+}
+function searchStudent(searchName) {
+    let newStudent = studentList.filter((student)=>{
+        let nameStudent = student.fullname.toLowerCase();
+        searchName = searchName.toLowerCase();
+        return nameStudent.indexOf(searchName) !== -1;
+    });
+    return newStudent;
+}
+function search(name, list) {
+    let newList = list.filter((li)=>{
+        let nameli = li.fullname.toLowerCase();
+        name = name.toLowerCase();
+        return nameli.indexOf(name) !== -1;
+    });
+    return newList;
+}
+let sortArray;
+function sortdUp(list) {
+    sortArray = list.sort((a, b)=>{
+        const nameA = a.fullname.toLowerCase();
+        const nameB = b.fullname.toLowerCase();
+        if (nameA < nameB) return -1;
+        else if (nameA > nameB) return 1;
+        else return 0;
+    });
+    return sortArray;
+}
+function sortDown(list) {
+    sortArray = list.sort((a, b)=>{
+        const nameA = a.fullname.toLowerCase();
+        const nameB = b.fullname.toLowerCase();
+        if (nameA > nameB) return -1;
+        else if (nameA < nameB) return 1;
+        else return 0;
+    });
+    return sortArray;
 }
 
 },{"./constructor.js":"ln1nT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ln1nT":[function(require,module,exports) {
 // class cha
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Person", ()=>Person);
 parcelHelpers.export(exports, "Student", ()=>Student);
 parcelHelpers.export(exports, "Employee", ()=>Employee);
 parcelHelpers.export(exports, "Customer", ()=>Customer);
-class ListPerson {
-    constructor(code, fullname, address, email){
+class Person {
+    constructor(code, fullname, address, email, type){
         this.code = code;
         this.fullname = fullname;
         this.address = address;
         this.email = email;
+        this.type = type;
     }
 }
-class Student extends ListPerson {
+class Student extends Person {
     constructor(code, fullname, address, email, math, physical, chemistry, type){
-        super(code, fullname, address, email);
+        super(code, fullname, address, email, type);
         this.math = +math;
         this.physical = +physical;
         this.chemistry = +chemistry;
-        this.type = type;
     }
     calcMedium() {
         return (this.math + this.physical + this.chemistry) / 3;
     }
 }
-class Employee extends ListPerson {
+class Employee extends Person {
     constructor(code, fullname, address, email, workingday, dailywage, type){
-        super(code, fullname, address, email);
-        this.workingday = workingday;
-        this.dailywage = dailywage;
-        this.type = "Employee";
+        super(code, fullname, address, email, type);
+        this.workingday = +workingday;
+        this.dailywage = +dailywage;
     }
     calcSalary() {
         return this.workingday * this.dailywage;
     }
 }
-class Customer extends ListPerson {
+class Customer extends Person {
     constructor(code, fullname, address, email, companyname, totalinvoice, rank, type){
-        super(code, fullname, address, email);
+        super(code, fullname, address, email, type);
         this.companyname = companyname;
-        this.totalinvoice = totalinvoice;
+        this.totalinvoice = +totalinvoice;
         this.rank = rank;
-        this.type = "Customer";
     }
 }
 
@@ -715,10 +937,17 @@ exports.export = function(dest, destName, get) {
 };
 
 },{}],"6Nkx6":[function(require,module,exports) {
+// SpeechSynthesisUtterance
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 // Student
 parcelHelpers.export(exports, "renderStudent", ()=>renderStudent);
+// Employee
+parcelHelpers.export(exports, "renderEmployee", ()=>renderEmployee);
+// Customer
+parcelHelpers.export(exports, "renderCustomer", ()=>renderCustomer);
+// ListPerson
+parcelHelpers.export(exports, "renderListPersons", ()=>renderListPersons);
 var _helpersJs = require("./helpers.js");
 function renderStudent(studentList) {
     let html = studentList.reduce((output, student, index)=>{
@@ -743,6 +972,65 @@ function renderStudent(studentList) {
     }, "");
     (0, _helpersJs.getEle)("#tblStudentList").innerHTML = html;
 }
+function renderEmployee(employeeList) {
+    let html = employeeList.reduce((output, employee, index)=>{
+        return output + `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${employee.fullname}</td>
+                <td>${employee.address}</td>
+                <td>${employee.code}</td>
+                <td>${employee.email}</td>
+                <td>${employee.workingday}</td>
+                <td>${employee.dailywage}</td>
+                <td>${employee.calcSalary()}</td>
+                <td>
+                    <button class="btn btn-primary" data-toggle="modal"
+                    data-target="#EmployeeModal" data-id="${employee.code}">Update</button>
+                    <button class="btn btn-danger" data-id="${employee.code}">Delete</button>
+                </td>
+            </tr>
+            `;
+    }, "");
+    (0, _helpersJs.getEle)("#tblEmployeeList").innerHTML = html;
+}
+function renderCustomer(CustomerList) {
+    let html = CustomerList.reduce((output, Customer, index)=>{
+        return output + `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${Customer.fullname}</td>
+                <td>${Customer.address}</td>
+                <td>${Customer.code}</td>
+                <td>${Customer.email}</td>
+                <td>${Customer.companyname}</td>
+                <td>${Customer.totalinvoice}</td>
+                <td>${Customer.rank}</td>
+                <td>
+                    <button class="btn btn-primary" data-toggle="modal"
+                    data-target="#CustomerModal" data-id="${Customer.code}">Update</button>
+                    <button class="btn btn-danger" data-id="${Customer.code}">Delete</button>
+                </td>
+            </tr>
+            `;
+    }, "");
+    (0, _helpersJs.getEle)("#tblCustomerList").innerHTML = html;
+}
+function renderListPersons(listPersons) {
+    let html = listPersons.reduce((output, person, index)=>{
+        return output + `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${person.fullname}</td>
+                <td>${person.address}</td>
+                <td>${person.code}</td>
+                <td>${person.email}</td>
+                <td>${person.type}</td>
+            </tr>
+            `;
+    }, "");
+    (0, _helpersJs.getEle)("#tblListPersons").innerHTML = html;
+}
 
 },{"./helpers.js":"hGI1E","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kwUO3":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -755,12 +1043,12 @@ parcelHelpers.export(exports, "deleteStudent", ()=>deleteStudent);
 parcelHelpers.export(exports, "selectStudent", ()=>selectStudent);
 // update student
 parcelHelpers.export(exports, "updateStudent", ()=>updateStudent);
-parcelHelpers.export(exports, "searchStudent", ()=>searchStudent);
 // reset form student
 parcelHelpers.export(exports, "resetFormStudent", ()=>resetFormStudent);
 var _helpersJs = require("./helpers.js");
 var _constructorJs = require("./constructor.js");
 var _mainJs = require("./main.js");
+var _validateJs = require("./validate.js");
 function addStudent() {
     // DOM
     let code = (0, _helpersJs.getEle)("#CodeStudent").value;
@@ -771,36 +1059,40 @@ function addStudent() {
     let physical = (0, _helpersJs.getEle)("#Physical").value;
     let chemistry = (0, _helpersJs.getEle)("#Chemistry").value;
     let type = "Student";
+    // check validate
+    if (!(0, _validateJs.valStu)()) return;
     const studentAdd = new (0, _constructorJs.Student)(code, fullname, address, email, math, physical, chemistry, type);
+    const personAdd = new (0, _constructorJs.Person)(code, fullname, address, email, type);
+    (0, _mainJs.listPersons).push(personAdd);
     (0, _mainJs.studentList).push(studentAdd);
     alert(`Successful created new Student :${fullname}`);
-    return 0, _mainJs.studentList;
+    (0, _helpersJs.store)("studentList", (0, _mainJs.studentList));
+    (0, _helpersJs.store)("listPersons", (0, _mainJs.listPersons));
+    resetFormStudent();
 }
 function deleteStudent(code) {
-    studentListAfter = (0, _mainJs.studentList).filter((student)=>{
-        if (student.code == code) alert(`Successful delete Student :${student.fullname}`);
-        return student.code !== code;
-    });
-    return studentListAfter;
+    let iS = (0, _helpersJs.findI)(code, (0, _mainJs.studentList));
+    alert(`Successful delete Student :${(0, _mainJs.studentList)[iS].fullname}`);
+    (0, _mainJs.studentList).splice(iS, 1);
+    (0, _mainJs.listPersons).splice((0, _helpersJs.findI)(code, (0, _mainJs.listPersons)), 1);
+    (0, _helpersJs.store)("studentList", (0, _mainJs.studentList));
+    (0, _helpersJs.store)("listPersons", (0, _mainJs.listPersons));
 }
 function selectStudent(code) {
-    let studentSelect = (0, _mainJs.studentList).find((student)=>{
-        return student.code === code;
-    });
-    (0, _helpersJs.getEle)("#CodeStudent").value = studentSelect.code;
-    (0, _helpersJs.getEle)("#FullNameStudent").value = studentSelect.fullname;
-    (0, _helpersJs.getEle)("#AddressStudent").value = studentSelect.address;
-    (0, _helpersJs.getEle)("#EmailStudent").value = studentSelect.email;
-    (0, _helpersJs.getEle)("#Math").value = studentSelect.math;
-    (0, _helpersJs.getEle)("#Physical").value = studentSelect.physical;
-    (0, _helpersJs.getEle)("#Chemistry").value = studentSelect.chemistry;
+    (0, _helpersJs.getEle)("#CodeStudent").value = (0, _mainJs.studentList)[(0, _helpersJs.findI)(code, (0, _mainJs.studentList))].code;
+    (0, _helpersJs.getEle)("#FullNameStudent").value = (0, _mainJs.studentList)[(0, _helpersJs.findI)(code, (0, _mainJs.studentList))].fullname;
+    (0, _helpersJs.getEle)("#AddressStudent").value = (0, _mainJs.studentList)[(0, _helpersJs.findI)(code, (0, _mainJs.studentList))].address;
+    (0, _helpersJs.getEle)("#EmailStudent").value = (0, _mainJs.studentList)[(0, _helpersJs.findI)(code, (0, _mainJs.studentList))].email;
+    (0, _helpersJs.getEle)("#Math").value = (0, _mainJs.studentList)[(0, _helpersJs.findI)(code, (0, _mainJs.studentList))].math;
+    (0, _helpersJs.getEle)("#Physical").value = (0, _mainJs.studentList)[(0, _helpersJs.findI)(code, (0, _mainJs.studentList))].physical;
+    (0, _helpersJs.getEle)("#Chemistry").value = (0, _mainJs.studentList)[(0, _helpersJs.findI)(code, (0, _mainJs.studentList))].chemistry;
     let html = `
         <button class="btn btn-secondary" data-dismiss="modal" id="cancle" >Cancle</button>
         <button class="btn btn-success ml-2" id="updateStudent" >Update</button>
     `;
     (0, _helpersJs.getEle)(".modal-footer-Student").innerHTML = html;
 }
-function updateStudent(studentList) {
+function updateStudent() {
     let code = (0, _helpersJs.getEle)("#CodeStudent").value;
     let fullname = (0, _helpersJs.getEle)("#FullNameStudent").value;
     let address = (0, _helpersJs.getEle)("#AddressStudent").value;
@@ -809,20 +1101,16 @@ function updateStudent(studentList) {
     let physical = (0, _helpersJs.getEle)("#Physical").value;
     let chemistry = (0, _helpersJs.getEle)("#Chemistry").value;
     let type = "Student";
+    // check validate
+    if (!(0, _validateJs.valStu)()) return;
     const studentUpdate = new (0, _constructorJs.Student)(code, fullname, address, email, math, physical, chemistry, type);
-    let index = studentList.findIndex((studentUpdate)=>{
-        return studentUpdate.code === code;
-    });
-    studentList[index] = studentUpdate;
-    return studentList;
-}
-function searchStudent(searchName) {
-    let newStudent = (0, _mainJs.studentList).filter((student)=>{
-        let typeStudent = student.fullname.toLowerCase();
-        searchName = searchName.toLowerCase();
-        return typeStudent.indexOf(searchName) !== -1;
-    });
-    return newStudent;
+    const personAdd = new (0, _constructorJs.Person)(code, fullname, address, email, type);
+    (0, _mainJs.studentList)[(0, _helpersJs.findI)(code, (0, _mainJs.studentList))] = studentUpdate;
+    (0, _mainJs.listPersons)[(0, _helpersJs.findI)(code, (0, _mainJs.listPersons))] = personAdd;
+    (0, _helpersJs.store)("studentList", (0, _mainJs.studentList));
+    (0, _helpersJs.store)("listPersons", (0, _mainJs.listPersons));
+    alert(`Successful update Student :${fullname}`);
+    resetFormStudent();
 }
 function resetFormStudent() {
     (0, _helpersJs.getEle)("#CodeStudent").value = "";
@@ -833,22 +1121,355 @@ function resetFormStudent() {
     (0, _helpersJs.getEle)("#Physical").value = "";
     (0, _helpersJs.getEle)("#Chemistry").value = "";
 }
-let sortArray;
-function sortedUp() {
-    function compare(a, b) {
-        return a.price - b.price;
-    }
-    sortArray = productsList.sort(compare);
-    renderProducts(sortArray);
+
+},{"./helpers.js":"hGI1E","./constructor.js":"ln1nT","./main.js":"1SICI","./validate.js":"gAU40","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gAU40":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+// check student ================================
+parcelHelpers.export(exports, "valStu", ()=>valStu);
+// check Employee ================================
+parcelHelpers.export(exports, "valEmp", ()=>valEmp);
+// check Customer ================================
+parcelHelpers.export(exports, "valCus", ()=>valCus);
+var _helpersJs = require("./helpers.js");
+var _mainJs = require("./main.js");
+let arrCharCode = /^[A-Za-z0-9]+$/;
+let arrNum = /^[0-9]/;
+// check empty : empty -> 0
+function checkEmpty(id) {
+    let isValid = false;
+    (0, _helpersJs.getEle)(id).value ? isValid = false : isValid = true;
+    return isValid;
 }
-function sorteDown() {
-    function compare(a, b) {
-        return b.price - a.price;
-    }
-    sortArray = productsList.sort(compare);
-    renderProducts(sortArray);
+// check Exist
+function checkExist(id) {
+    let isValid = false;
+    let value = (0, _helpersJs.getEle)(id).value;
+    let isElement = (0, _mainJs.listPersons).some((obj)=>obj.code === value);
+    !isElement ? isValid = false : isValid = true;
+    return isValid;
+}
+function valStu(evt) {
+    let isValid = true;
+    // check code
+    if (checkEmpty("#CodeStudent")) {
+        isValid = false;
+        (0, _helpersJs.getEle)("#tbCodeStudent").style.display = "block";
+        (0, _helpersJs.getEle)("#tbCodeStudent").innerHTML = "not Empty!";
+    } else if (checkExist("#CodeStudent")) {
+        isValid = false;
+        (0, _helpersJs.getEle)("#tbCodeStudent").style.display = "block";
+        (0, _helpersJs.getEle)("#tbCodeStudent").innerHTML = "already exists!";
+    } else if (!(0, _helpersJs.getEle)("#CodeStudent").value.match(arrCharCode) || (0, _helpersJs.getEle)("#CodeStudent").value.length < 4 || (0, _helpersJs.getEle)("#CodeStudent").value.length > 6) {
+        isValid = false;
+        (0, _helpersJs.getEle)("#tbCodeStudent").style.display = "block";
+        (0, _helpersJs.getEle)("#tbCodeStudent").innerHTML = "from 4-6 characters and no special characters!";
+    } else (0, _helpersJs.getEle)("#tbCodeStudent").style.display = "none";
+    // fullname
+    if (checkEmpty("#FullNameStudent")) {
+        isValid = false;
+        (0, _helpersJs.getEle)("#tbFullNameStudent").style.display = "block";
+        (0, _helpersJs.getEle)("#tbFullNameStudent").innerHTML = "not Empty!";
+    } else (0, _helpersJs.getEle)("#tbFullNameStudent").style.display = "none";
+    // address
+    if (checkEmpty("#AddressStudent")) {
+        isValid = false;
+        (0, _helpersJs.getEle)("#tbAddressStudent").style.display = "block";
+        (0, _helpersJs.getEle)("#tbAddressStudent").innerHTML = "not Empty!";
+    } else (0, _helpersJs.getEle)("#tbAddressStudent").style.display = "none";
+    // math
+    if (checkEmpty("#Math")) {
+        isValid = false;
+        (0, _helpersJs.getEle)("#tbMath").style.display = "block";
+        (0, _helpersJs.getEle)("#tbMath").innerHTML = "not Empty!";
+    } else if (!(0, _helpersJs.getEle)("#Math").value.match(arrNum) || (0, _helpersJs.getEle)("#Math").value < 0 || (0, _helpersJs.getEle)("#Math").value > 10) {
+        isValid = false;
+        (0, _helpersJs.getEle)("#tbMath").style.display = "block";
+        (0, _helpersJs.getEle)("#tbMath").innerHTML = "score is Number from 0-10";
+    } else (0, _helpersJs.getEle)("#tbMath").style.display = "none";
+    // physical
+    if (checkEmpty("#Physical")) {
+        isValid = false;
+        (0, _helpersJs.getEle)("#tbPhysical").style.display = "block";
+        (0, _helpersJs.getEle)("#tbPhysical").innerHTML = "not Empty!";
+    } else if (!(0, _helpersJs.getEle)("#Physical").value.match(arrNum) || (0, _helpersJs.getEle)("#Physical").value < 0 || (0, _helpersJs.getEle)("#Physical").value > 10) {
+        isValid = false;
+        (0, _helpersJs.getEle)("#tbPhysical").style.display = "block";
+        (0, _helpersJs.getEle)("#tbPhysical").innerHTML = "score is Number from 0-10";
+    } else (0, _helpersJs.getEle)("#tbPhysical").style.display = "none";
+    // chemistry
+    if (checkEmpty("#Chemistry")) {
+        isValid = false;
+        (0, _helpersJs.getEle)("#tbChemistry").style.display = "block";
+        (0, _helpersJs.getEle)("#tbChemistry").innerHTML = "not Empty!";
+    } else if (!(0, _helpersJs.getEle)("#Chemistry").value.match(arrNum) || (0, _helpersJs.getEle)("#Chemistry").value < 0 || (0, _helpersJs.getEle)("#Chemistry").value > 10) {
+        isValid = false;
+        (0, _helpersJs.getEle)("#tbChemistry").style.display = "block";
+        (0, _helpersJs.getEle)("#tbChemistry").innerHTML = "score is Number from 0-10";
+    } else (0, _helpersJs.getEle)("#tbChemistry").style.display = "none";
+    return isValid;
+}
+function valEmp(evt) {
+    let isValid = true;
+    // check code
+    if (checkEmpty("#CodeEmployee")) {
+        isValid = false;
+        (0, _helpersJs.getEle)("#tbCodeEmployee").style.display = "block";
+        (0, _helpersJs.getEle)("#tbCodeEmployee").innerHTML = "not Empty!";
+    } else if (checkExist("#CodeEmployee")) {
+        isValid = false;
+        (0, _helpersJs.getEle)("#tbCodeEmployee").style.display = "block";
+        (0, _helpersJs.getEle)("#tbCodeEmployee").innerHTML = "already exists!";
+    } else if (!(0, _helpersJs.getEle)("#CodeEmployee").value.match(arrCharCode) || (0, _helpersJs.getEle)("#CodeEmployee").value.length < 4 || (0, _helpersJs.getEle)("#CodeEmployee").value.length > 6) {
+        isValid = false;
+        (0, _helpersJs.getEle)("#tbCodeEmployee").style.display = "block";
+        (0, _helpersJs.getEle)("#tbCodeEmployee").innerHTML = "from 4-6 characters and no special characters!";
+    } else (0, _helpersJs.getEle)("#tbCodeEmployee").style.display = "none";
+    // fullname
+    if (checkEmpty("#FullNameEmployee")) {
+        isValid = false;
+        (0, _helpersJs.getEle)("#tbFullNameEmployee").style.display = "block";
+        (0, _helpersJs.getEle)("#tbFullNameEmployee").innerHTML = "not Empty!";
+    } else (0, _helpersJs.getEle)("#tbFullNameEmployee").style.display = "none";
+    // address
+    if (checkEmpty("#AddressEmployee")) {
+        isValid = false;
+        (0, _helpersJs.getEle)("#tbAddressEmployee").style.display = "block";
+        (0, _helpersJs.getEle)("#tbAddressEmployee").innerHTML = "not Empty!";
+    } else (0, _helpersJs.getEle)("#tbAddressEmployee").style.display = "none";
+    // Workingday
+    if (checkEmpty("#Workingday")) {
+        isValid = false;
+        (0, _helpersJs.getEle)("#tbWorkingday").style.display = "block";
+        (0, _helpersJs.getEle)("#tbWorkingday").innerHTML = "not Empty!";
+    } else if (!(0, _helpersJs.getEle)("#Workingday").value.match(arrNum) || (0, _helpersJs.getEle)("#Workingday").value < 0) {
+        isValid = false;
+        (0, _helpersJs.getEle)("#tbWorkingday").style.display = "block";
+        (0, _helpersJs.getEle)("#tbWorkingday").innerHTML = "is Number";
+    } else (0, _helpersJs.getEle)("#tbWorkingday").style.display = "none";
+    // Workingday
+    if (checkEmpty("#Dailywage")) {
+        isValid = false;
+        (0, _helpersJs.getEle)("#tbDailywage").style.display = "block";
+        (0, _helpersJs.getEle)("#tbDailywage").innerHTML = "not Empty!";
+    } else if (!(0, _helpersJs.getEle)("#Dailywage").value.match(arrNum) || (0, _helpersJs.getEle)("#Dailywage").value < 0) {
+        isValid = false;
+        (0, _helpersJs.getEle)("#tbDailywage").style.display = "block";
+        (0, _helpersJs.getEle)("#tbDailywage").innerHTML = "is Number";
+    } else (0, _helpersJs.getEle)("#tbDailywage").style.display = "none";
+    return isValid;
+}
+function valCus(evt) {
+    let isValid = true;
+    // check code
+    if (checkEmpty("#CodeCustomer")) {
+        isValid = false;
+        (0, _helpersJs.getEle)("#tbCodeCustomer").style.display = "block";
+        (0, _helpersJs.getEle)("#tbCodeCustomer").innerHTML = "not Empty!";
+    } else if (checkExist("#CodeCustomer")) {
+        isValid = false;
+        (0, _helpersJs.getEle)("#tbCodeCustomer").style.display = "block";
+        (0, _helpersJs.getEle)("#tbCodeCustomer").innerHTML = "already exists!";
+    } else if (!(0, _helpersJs.getEle)("#CodeCustomer").value.match(arrCharCode) || (0, _helpersJs.getEle)("#CodeCustomer").value.length < 4 || (0, _helpersJs.getEle)("#CodeCustomer").value.length > 6) {
+        isValid = false;
+        (0, _helpersJs.getEle)("#tbCodeCustomer").style.display = "block";
+        (0, _helpersJs.getEle)("#tbCodeCustomer").innerHTML = "from 4-6 characters and no special characters!";
+    } else (0, _helpersJs.getEle)("#tbCodeCustomer").style.display = "none";
+    // fullname
+    if (checkEmpty("#FullNameCustomer")) {
+        isValid = false;
+        (0, _helpersJs.getEle)("#tbFullNameCustomer").style.display = "block";
+        (0, _helpersJs.getEle)("#tbFullNameCustomer").innerHTML = "not Empty!";
+    } else (0, _helpersJs.getEle)("#tbFullNameCustomer").style.display = "none";
+    // address
+    if (checkEmpty("#AddressCustomer")) {
+        isValid = false;
+        (0, _helpersJs.getEle)("#tbAddressCustomer").style.display = "block";
+        (0, _helpersJs.getEle)("#tbAddressCustomer").innerHTML = "not Empty!";
+    } else (0, _helpersJs.getEle)("#tbAddressCustomer").style.display = "none";
+    // Companyname
+    if (checkEmpty("#Companyname")) {
+        isValid = false;
+        (0, _helpersJs.getEle)("#tbCompanyname").style.display = "block";
+        (0, _helpersJs.getEle)("#tbCompanyname").innerHTML = "not Empty!";
+    } else (0, _helpersJs.getEle)("#tbCompanyname").style.display = "none";
+    return isValid;
 }
 
-},{"./helpers.js":"hGI1E","./constructor.js":"ln1nT","./main.js":"1SICI","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["9tRox","1SICI"], "1SICI", "parcelRequirebf8c")
+},{"./helpers.js":"hGI1E","./main.js":"1SICI","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jtQCe":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "addEmployee", ()=>addEmployee);
+parcelHelpers.export(exports, "resetFormEmployee", ()=>resetFormEmployee);
+// delete 
+parcelHelpers.export(exports, "deleteEmployee", ()=>deleteEmployee);
+// select
+parcelHelpers.export(exports, "selectEmployee", ()=>selectEmployee);
+// update 
+parcelHelpers.export(exports, "updateEmployee", ()=>updateEmployee);
+var _helpersJs = require("./helpers.js");
+var _constructorJs = require("./constructor.js");
+var _mainJs = require("./main.js");
+var _validateJs = require("./validate.js");
+function addEmployee() {
+    // DOM
+    let code = (0, _helpersJs.getEle)("#CodeEmployee").value;
+    let fullname = (0, _helpersJs.getEle)("#FullNameEmployee").value;
+    let address = (0, _helpersJs.getEle)("#AddressEmployee").value;
+    let email = (0, _helpersJs.getEle)("#EmailEmployee").value;
+    let workingday = (0, _helpersJs.getEle)("#Workingday").value;
+    let dailywage = (0, _helpersJs.getEle)("#Dailywage").value;
+    let type = "Employee";
+    // check validate
+    if (!(0, _validateJs.valEmp)()) return;
+    const EmployeeAdd = new (0, _constructorJs.Employee)(code, fullname, address, email, workingday, dailywage, type);
+    const personAdd = new (0, _constructorJs.Person)(code, fullname, address, email, type);
+    (0, _mainJs.listPersons).push(personAdd);
+    (0, _mainJs.employeeList).push(EmployeeAdd);
+    alert(`Successful created new Employee :${fullname}`);
+    (0, _helpersJs.store)("employeeList", (0, _mainJs.employeeList));
+    (0, _helpersJs.store)("listPersons", (0, _mainJs.listPersons));
+    resetFormEmployee();
+}
+function resetFormEmployee() {
+    (0, _helpersJs.getEle)("#CodeEmployee").value = "";
+    (0, _helpersJs.getEle)("#FullNameEmployee").value = "";
+    (0, _helpersJs.getEle)("#AddressEmployee").value = "";
+    (0, _helpersJs.getEle)("#EmailEmployee").value = "";
+    (0, _helpersJs.getEle)("#Workingday").value = "";
+    (0, _helpersJs.getEle)("#Dailywage").value = "";
+}
+function deleteEmployee(code) {
+    let eS = (0, _helpersJs.findI)(code, (0, _mainJs.employeeList));
+    alert(`Successful delete Employee :${(0, _mainJs.employeeList)[eS].fullname}`);
+    (0, _mainJs.employeeList).splice(eS, 1);
+    (0, _mainJs.listPersons).splice((0, _helpersJs.findI)(code, (0, _mainJs.listPersons)), 1);
+    (0, _helpersJs.store)("employeeList", (0, _mainJs.employeeList));
+    (0, _helpersJs.store)("listPersons", (0, _mainJs.listPersons));
+}
+function selectEmployee(code) {
+    (0, _helpersJs.getEle)("#CodeEmployee").value = (0, _mainJs.employeeList)[(0, _helpersJs.findI)(code, (0, _mainJs.employeeList))].code;
+    (0, _helpersJs.getEle)("#FullNameEmployee").value = (0, _mainJs.employeeList)[(0, _helpersJs.findI)(code, (0, _mainJs.employeeList))].fullname;
+    (0, _helpersJs.getEle)("#AddressEmployee").value = (0, _mainJs.employeeList)[(0, _helpersJs.findI)(code, (0, _mainJs.employeeList))].address;
+    (0, _helpersJs.getEle)("#EmailEmployee").value = (0, _mainJs.employeeList)[(0, _helpersJs.findI)(code, (0, _mainJs.employeeList))].email;
+    (0, _helpersJs.getEle)("#Workingday").value = (0, _mainJs.employeeList)[(0, _helpersJs.findI)(code, (0, _mainJs.employeeList))].workingday;
+    (0, _helpersJs.getEle)("#Dailywage").value = (0, _mainJs.employeeList)[(0, _helpersJs.findI)(code, (0, _mainJs.employeeList))].dailywage;
+    let html = `
+        <button class="btn btn-secondary" data-dismiss="modal" id="cancle" >Cancle</button>
+        <button class="btn btn-success ml-2" id="updateEmployee" >Update</button>
+    `;
+    (0, _helpersJs.getEle)(".modal-footer-Employee").innerHTML = html;
+}
+function updateEmployee() {
+    let code = (0, _helpersJs.getEle)("#CodeEmployee").value;
+    let fullname = (0, _helpersJs.getEle)("#FullNameEmployee").value;
+    let address = (0, _helpersJs.getEle)("#AddressEmployee").value;
+    let email = (0, _helpersJs.getEle)("#EmailEmployee").value;
+    let workingday = (0, _helpersJs.getEle)("#Workingday").value;
+    let dailywage = (0, _helpersJs.getEle)("#Dailywage").value;
+    let type = "Employee";
+    // check validate
+    if (!(0, _validateJs.valEmp)()) return;
+    const employeeUpdate = new (0, _constructorJs.Employee)(code, fullname, address, email, workingday, dailywage, type);
+    const personUpdate = new (0, _constructorJs.Person)(code, fullname, address, email, type);
+    (0, _mainJs.employeeList)[(0, _helpersJs.findI)(code, (0, _mainJs.employeeList))] = employeeUpdate;
+    (0, _mainJs.listPersons)[(0, _helpersJs.findI)(code, (0, _mainJs.listPersons))] = personUpdate;
+    (0, _helpersJs.store)("employeeList", (0, _mainJs.employeeList));
+    (0, _helpersJs.store)("listPersons", (0, _mainJs.listPersons));
+    alert(`Successful update Employee :${fullname}`);
+    resetFormEmployee();
+}
+
+},{"./helpers.js":"hGI1E","./constructor.js":"ln1nT","./main.js":"1SICI","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./validate.js":"gAU40"}],"hpm2F":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "addCustomer", ()=>addCustomer);
+// delete 
+parcelHelpers.export(exports, "deleteCustomer", ()=>deleteCustomer);
+// select
+parcelHelpers.export(exports, "selectCustomer", ()=>selectCustomer);
+// update 
+parcelHelpers.export(exports, "updateCustomer", ()=>updateCustomer);
+parcelHelpers.export(exports, "resetFormCustomer", ()=>resetFormCustomer);
+var _helpersJs = require("./helpers.js");
+var _constructorJs = require("./constructor.js");
+var _mainJs = require("./main.js");
+var _validateJs = require("./validate.js");
+function addCustomer() {
+    // DOM
+    console.log("đ\xe3 add cus");
+    let code = (0, _helpersJs.getEle)("#CodeCustomer").value;
+    let fullname = (0, _helpersJs.getEle)("#FullNameCustomer").value;
+    let address = (0, _helpersJs.getEle)("#AddressCustomer").value;
+    let email = (0, _helpersJs.getEle)("#EmailCustomer").value;
+    let companyName = (0, _helpersJs.getEle)("#Companyname").value;
+    let totalInvoice = (0, _helpersJs.getEle)("#Totalinvoice").value;
+    let rank = (0, _helpersJs.getEle)("#Rank").value;
+    let type = "Customer";
+    // check validate
+    if (!(0, _validateJs.valCus)()) return;
+    console.log("đ\xe3 chcek vali");
+    const customerAdd = new (0, _constructorJs.Customer)(code, fullname, address, email, companyName, totalInvoice, rank, type);
+    const personAdd = new (0, _constructorJs.Person)(code, fullname, address, email, type);
+    (0, _mainJs.listPersons).push(personAdd);
+    (0, _mainJs.customerList).push(customerAdd);
+    alert(`Successful created new Customer :${fullname}`);
+    (0, _helpersJs.store)("listPersons", (0, _mainJs.listPersons));
+    (0, _helpersJs.store)("customerList", (0, _mainJs.customerList));
+    resetFormCustomer();
+}
+function deleteCustomer(code) {
+    let eS = (0, _helpersJs.findI)(code, (0, _mainJs.customerList));
+    alert(`Successful delete Customer :${(0, _mainJs.customerList)[eS].fullname}`);
+    (0, _mainJs.customerList).splice(eS, 1);
+    (0, _mainJs.listPersons).splice((0, _helpersJs.findI)(code, (0, _mainJs.listPersons)), 1);
+    (0, _helpersJs.store)("listPersons", (0, _mainJs.listPersons));
+    (0, _helpersJs.store)("customerList", (0, _mainJs.customerList));
+}
+function selectCustomer(code) {
+    (0, _helpersJs.getEle)("#CodeCustomer").value = (0, _mainJs.customerList)[(0, _helpersJs.findI)(code, (0, _mainJs.customerList))].code;
+    (0, _helpersJs.getEle)("#FullNameCustomer").value = (0, _mainJs.customerList)[(0, _helpersJs.findI)(code, (0, _mainJs.customerList))].fullname;
+    (0, _helpersJs.getEle)("#AddressCustomer").value = (0, _mainJs.customerList)[(0, _helpersJs.findI)(code, (0, _mainJs.customerList))].address;
+    (0, _helpersJs.getEle)("#EmailCustomer").value = (0, _mainJs.customerList)[(0, _helpersJs.findI)(code, (0, _mainJs.customerList))].email;
+    (0, _helpersJs.getEle)("#Companyname").value = (0, _mainJs.customerList)[(0, _helpersJs.findI)(code, (0, _mainJs.customerList))].companyname;
+    (0, _helpersJs.getEle)("#Totalinvoice").value = (0, _mainJs.customerList)[(0, _helpersJs.findI)(code, (0, _mainJs.customerList))].totalinvoice;
+    (0, _helpersJs.getEle)("#Rank").value = (0, _mainJs.customerList)[(0, _helpersJs.findI)(code, (0, _mainJs.customerList))].rank;
+    let html = `
+        <button class="btn btn-secondary" data-dismiss="modal" id="cancle" >Cancle</button>
+        <button class="btn btn-success ml-2" id="updateCustomer" >Update</button>
+    `;
+    (0, _helpersJs.getEle)(".modal-footer-Customer").innerHTML = html;
+}
+function updateCustomer() {
+    let code = (0, _helpersJs.getEle)("#CodeCustomer").value;
+    let fullname = (0, _helpersJs.getEle)("#FullNameCustomer").value;
+    let address = (0, _helpersJs.getEle)("#AddressCustomer").value;
+    let email = (0, _helpersJs.getEle)("#EmailCustomer").value;
+    let companyName = (0, _helpersJs.getEle)("#Companyname").value;
+    let totalInvoice = (0, _helpersJs.getEle)("#Totalinvoice").value;
+    let rank = (0, _helpersJs.getEle)("#Rank").value;
+    let type = "Customer";
+    // check validate
+    if (!(0, _validateJs.valCus)()) return;
+    const CustomerUpdate = new (0, _constructorJs.Customer)(code, fullname, address, email, companyName, totalInvoice, rank, type);
+    const personUpdate = new (0, _constructorJs.Person)(code, fullname, address, email, type);
+    (0, _mainJs.customerList)[(0, _helpersJs.findI)(code, (0, _mainJs.customerList))] = CustomerUpdate;
+    (0, _mainJs.listPersons)[(0, _helpersJs.findI)(code, (0, _mainJs.listPersons))] = personUpdate;
+    (0, _helpersJs.store)("customerList", (0, _mainJs.customerList));
+    (0, _helpersJs.store)("listPersons", (0, _mainJs.listPersons));
+    alert(`Successful update Customer :${fullname}`);
+    resetFormCustomer();
+}
+function resetFormCustomer() {
+    (0, _helpersJs.getEle)("#CodeCustomer").value = "";
+    (0, _helpersJs.getEle)("#FullNameCustomer").value = "";
+    (0, _helpersJs.getEle)("#AddressCustomer").value = "";
+    (0, _helpersJs.getEle)("#EmailCustomer").value = "";
+    (0, _helpersJs.getEle)("#Companyname").value = "";
+    (0, _helpersJs.getEle)("#Totalinvoice").value = "";
+    (0, _helpersJs.getEle)("#Rank").value = "";
+}
+
+},{"./helpers.js":"hGI1E","./constructor.js":"ln1nT","./main.js":"1SICI","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./validate.js":"gAU40"}]},["9tRox","1SICI"], "1SICI", "parcelRequirebf8c")
 
 //# sourceMappingURL=index.18dbc454.js.map

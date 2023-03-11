@@ -7,7 +7,7 @@
     <title>Quản lý nhân viên</title>
     <!-- bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <!-- <link rel="stylesheet" href="./scss/main.scss"> -->
+    <link rel="stylesheet" href="./SCSS/main.scss">
 </head>
 <body>
     <header class="bg-dark">
@@ -37,7 +37,7 @@
             
             <!-- ======================= ListPerson ======================= -->
             
-            <div class="tab-pane fade show" id="pills-ListPerson" role="tabpanel" aria-labelledby="pills-ListPerson-tab">
+            <div class="tab-pane fade show active" id="pills-ListPerson" role="tabpanel" aria-labelledby="pills-ListPerson-tab">
               <ul class="nav nav-tabs" role="tablist">
                 <li class="nav-item">
                   <a
@@ -54,24 +54,33 @@
                 <!--Danh sách Person -->
                 <div role="tabpanel" class="tab-pane in active" id="DanhSachSP">
                   <div class="row">
-                    <div class="col-md-8">
-                    </div>
                     <div class="col-md-4">
+                    </div>
+                    <div class="col-md-8">
                       <!-- BEGIN TÌM KIẾM -->
-                      <div class="input-group mb-3">
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="Search"
-                          aria-label="Recipient's username"
-                          aria-describedby="basic-addon2"
-                          id="txtSearch"
-                        />
-                        <div class="input-group-append">
-                          <span class="input-group-text" id="basic-addon2"
-                            ><i class="fa fa-search"></i
-                          ></span>
+                      <div class="d-flex justify-content-between">
+                        <select class="custom-select mr-5 col-md-4" id="listPersonSort">
+                          <option selected>Open this select menu</option>
+                          <option value="1">FullName A to Z</option>
+                          <option value="2">FullName Z to A</option>
+                        </select>
+                        <!-- BEGIN TÌM KIẾM -->
+                        <div class="input-group mb-3 ml-5 col-md-4">
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Search"
+                            aria-label="Recipient's username"
+                            aria-describedby="basic-addon2"
+                            id="txtSearchListPerson"
+                          />
+                          <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon2"
+                              ><i class="fa fa-search"></i
+                            ></span>
+                          </div>
                         </div>
+                        <!-- END TÌM KIẾM -->
                       </div>
                       <!-- END TÌM KIẾM -->
                     </div>
@@ -86,9 +95,9 @@
                         <th>Address</th>
                         <th>Code</th>
                         <th>Email</th>
-                        <th>Action</th>
+                        <th>Type</th>
                       </thead>
-                      <tbody id="tblDanhSachSP"></tbody>
+                      <tbody id="tblListPersons"></tbody>
                     </table>
                     <!-- END TABLE SẢN PHẨM -->
                   </div>
@@ -100,7 +109,7 @@
             </div>
 
             <!-- ======================= Student ======================= -->
-            <div class="tab-pane fade show active" id="pills-Student" role="tabpanel" aria-labelledby="pills-Student-tab">
+            <div class="tab-pane fade show" id="pills-Student" role="tabpanel" aria-labelledby="pills-Student-tab">
               <ul class="nav nav-tabs" role="tablist">
                 <li class="nav-item">
                   <a
@@ -132,7 +141,7 @@
                     </div>
                     <div class="col-md-8">
                       <div class="d-flex justify-content-between">
-                        <select class="custom-select mr-5 col-md-4">
+                        <select class="custom-select mr-5 col-md-4" id="studentSort">
                           <option selected>Open this select menu</option>
                           <option value="1">FullName A to Z</option>
                           <option value="2">FullName Z to A</option>
@@ -203,6 +212,7 @@
                           class="form-control"
                           placeholder="Nhập vào hình sản phẩm"
                         />
+                        <div class="notifi" id="tbCodeStudent"></div>
                       </div>
                       <div class="form-group">
                         <label>Full name</label>
@@ -211,6 +221,7 @@
                           class="form-control"
                           placeholder=""
                         />
+                        <div class="notifi" id="tbFullNameStudent"></div>
                       </div>
                       <div class="form-group">
                         <label>Address</label>
@@ -219,6 +230,7 @@
                           class="form-control"
                           placeholder="Nhập vào giá"
                         />
+                        <div class="notifi" id="tbAddressStudent"></div>
                       </div>             
                       
                       <div class="form-group">
@@ -228,6 +240,7 @@
                           class="form-control"
                           placeholder="Nhập vào hình sản phẩm"
                         />
+                        <div class="notifi" id="tbEmailStudent"></div>
                       </div>
                       
                       <div class="form-group">
@@ -236,7 +249,9 @@
                           id="Math"
                           class="form-control"
                           placeholder="Nhập vào hình sản phẩm"
+                          type="number"
                         />
+                        <div class="notifi" id="tbMath"></div>
                       </div>
                       <div class="form-group">
                         <label>Physical</label>
@@ -244,7 +259,9 @@
                           id="Physical"
                           class="form-control"
                           placeholder="Nhập vào hình sản phẩm"
+                          type="number"
                         />
+                        <div class="notifi" id="tbPhysical"></div>
                       </div>
                       <div class="form-group">
                         <label>Chemistry</label>
@@ -252,7 +269,9 @@
                           id="Chemistry"
                           class="form-control"
                           placeholder="Nhập vào hình sản phẩm"
+                          type="number"
                         />
+                        <div class="notifi" id="tbChemistry"></div>
                       </div>
                     </div>
                     <!-- Modal footer -->
@@ -282,7 +301,7 @@
                 <!--Danh sách Employee -->
                 <div role="tabpanel" class="tab-pane in active" id="DanhSachSP">
                   <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-4">
                       <!-- BEGIN BUTTOM THÊM Employee -->
                       <button
                         id="btnAddEmployee"
@@ -292,28 +311,36 @@
 
                       >
                         <i class="fa fa-plus mr-1"></i>
-                        Thêm Mới
+                        Created
                       </button>
                       <!-- END BUTTON THÊM Employee -->
                     </div>
-                    <div class="col-md-4">
-                      <!-- BEGIN TÌM KIẾM -->
-                      <div class="input-group mb-3">
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="Search"
-                          aria-label="Recipient's username"
-                          aria-describedby="basic-addon2"
-                          id="txtSearch"
-                        />
-                        <div class="input-group-append">
-                          <span class="input-group-text" id="basic-addon2"
-                            ><i class="fa fa-search"></i
-                          ></span>
+                  
+                    <div class="col-md-8">
+                      <div class="d-flex justify-content-between">
+                        <select class="custom-select mr-5 col-md-4" id="employeeSort">
+                          <option selected>Open this select menu</option>
+                          <option value="1">FullName A to Z</option>
+                          <option value="2">FullName Z to A</option>
+                        </select>
+                        <!-- BEGIN TÌM KIẾM -->
+                        <div class="input-group mb-3 ml-5 col-md-4">
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Search"
+                            aria-label="Recipient's username"
+                            aria-describedby="basic-addon2"
+                            id="txtSearchEmployee"
+                          />
+                          <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon2"
+                              ><i class="fa fa-search"></i
+                            ></span>
+                          </div>
                         </div>
+                        <!-- END TÌM KIẾM -->
                       </div>
-                      <!-- END TÌM KIẾM -->
                     </div>
                   </div>
                   <div class="clear-fix"></div>
@@ -327,12 +354,11 @@
                         <th>Code</th>
                         <th>Email</th>                
                         <th>Working day</th>
-                        <th>Physical</th>
                         <th>Daily wage</th>
                         <th>Salary</th>
                         <th>Action</th>
                       </thead>
-                      <tbody id="tblDanhSachSP">
+                      <tbody id="tblEmployeeList">
 
                       </tbody>
                     </table>
@@ -354,7 +380,17 @@
                       </button>
                     </div>
                     <!-- Modal body -->
+                    
                     <div class="modal-body">
+                      <div class="form-group">
+                        <label>Code</label>
+                        <input
+                          id="CodeEmployee"
+                          class="form-control"
+                          placeholder="Nhập vào tên sản phẩm"
+                        />
+                        <div class="notifi" id="tbCodeEmployee"></div>
+                      </div>
                       <div class="form-group">
                         <label>Full name</label>
                         <input
@@ -362,6 +398,7 @@
                           class="form-control"
                           placeholder="Nhập vào tên sản phẩm"
                         />
+                        <div class="notifi" id="tbFullNameEmployee"></div>
                       </div>
                       <div class="form-group">
                         <label>Address</label>
@@ -370,15 +407,8 @@
                           class="form-control"
                           placeholder="Nhập vào giá"
                         />
-                      </div>             
-                      <!-- <div class="form-group">
-                        <label>Code</label>
-                        <input
-                          id="Code"
-                          class="form-control"
-                          placeholder="Nhập vào hình sản phẩm"
-                        />
-                      </div> -->
+                        <div class="notifi" id="tbAddressEmployee"></div>
+                      </div>
                       <div class="form-group">
                         <label for="">Email</label>
                         <input
@@ -386,6 +416,7 @@
                           class="form-control"
                           placeholder="Nhập vào hình sản phẩm"
                         />
+                        <div class="notifi" id="tbEmailEmployee"></div>
                       </div>
                       <div class="form-group">
                         <label>Working day</label>
@@ -393,7 +424,9 @@
                           id="Workingday"
                           class="form-control"
                           placeholder="Nhập vào hình sản phẩm"
+                          type="number"
                         />
+                        <div class="notifi" id="tbWorkingday"></div>
                       </div>
                       <div class="form-group">
                         <label>Daily wage</label>
@@ -401,13 +434,13 @@
                           id="Dailywage"
                           class="form-control"
                           placeholder="Nhập vào hình sản phẩm"
+                          type="number"
                         />
+                        <div class="notifi" id="tbDailywage"></div>
                       </div>
                     </div>
                     <!-- Modal footer -->
                     <div class="modal-footer-Employee d-flex justify-content-end m-2">
-                      <button class="btn btn-secondary" data-dismiss="modal" id="cancle" >Cancle</button>
-                      <button class="btn btn-success ml-2" id="addEmployee" onClick="addx()" >Add</button>
                     </div>
                   </div>
                 </div>
@@ -433,7 +466,7 @@
                 <!--Danh sách Customer -->
                 <div role="tabpanel" class="tab-pane in active" id="DanhSachSP">
                   <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-4">
                       <!-- BEGIN BUTTOM THÊM Customer -->
                       <button
                         id="btnAddCustomer"
@@ -442,26 +475,35 @@
                         data-target="#CustomerModal"
                       >
                         <i class="fa fa-plus mr-1"></i>
-                        Thêm Mới
+                        Created
                       </button>
                       <!-- END BUTTON THÊM Customer -->
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-8">
                       <!-- BEGIN TÌM KIẾM -->
-                      <div class="input-group mb-3">
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="Search"
-                          aria-label="Recipient's username"
-                          aria-describedby="basic-addon2"
-                          id="txtSearch"
-                        />
-                        <div class="input-group-append">
-                          <span class="input-group-text" id="basic-addon2"
-                            ><i class="fa fa-search"></i
-                          ></span>
+                      <div class="d-flex justify-content-between">
+                        <select class="custom-select mr-5 col-md-4" id="customerSort">
+                          <option selected>Open this select menu</option>
+                          <option value="1">FullName A to Z</option>
+                          <option value="2">FullName Z to A</option>
+                        </select>
+                        <!-- BEGIN TÌM KIẾM -->
+                        <div class="input-group mb-3 ml-5 col-md-4">
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Search"
+                            aria-label="Recipient's username"
+                            aria-describedby="basic-addon2"
+                            id="txtSearchCustomer"
+                          />
+                          <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon2"
+                              ><i class="fa fa-search"></i
+                            ></span>
+                          </div>
                         </div>
+                        <!-- END TÌM KIẾM -->
                       </div>
                       <!-- END TÌM KIẾM -->
                     </div>
@@ -481,7 +523,7 @@
                         <th>Rank</th>
                         <th>Action</th>
                       </thead>
-                      <tbody id="tblDanhSachSP"></tbody>
+                      <tbody id="tblCustomerList"></tbody>
                     </table>
                     <!-- END TABLE SẢN PHẨM -->
                   </div>
@@ -502,6 +544,15 @@
                     </div>
                     <!-- Modal body -->
                     <div class="modal-body">
+                       <div class="form-group">
+                        <label>Code</label>
+                        <input
+                          id="CodeCustomer"
+                          class="form-control"
+                          placeholder="Nhập vào hình sản phẩm"
+                        />
+                        <div class="notifi" id="tbCodeCustomer"></div>
+                      </div>
                       <div class="form-group">
                         <label>Full name</label>
                         <input
@@ -509,6 +560,7 @@
                           class="form-control"
                           placeholder="Nhập vào tên sản phẩm"
                         />
+                        <div class="notifi" id="tbFullNameCustomer"></div>
                       </div>
                       <div class="form-group">
                         <label>Address</label>
@@ -517,15 +569,9 @@
                           class="form-control"
                           placeholder="Nhập vào giá"
                         />
+                        <div class="notifi" id="tbAddressCustomer"></div>
                       </div>             
-                      <!-- <div class="form-group">
-                        <label>Code</label>
-                        <input
-                          id="Code"
-                          class="form-control"
-                          placeholder="Nhập vào hình sản phẩm"
-                        />
-                      </div> -->
+                     
                       <div class="form-group">
                         <label for="">Email</label>
                         <input
@@ -533,6 +579,7 @@
                           class="form-control"
                           placeholder="Nhập vào hình sản phẩm"
                         />
+                        <div class="notifi" id="tbEmailCustomer"></div>
                       </div>
                       <div class="form-group">
                         <label>Company name</label>
@@ -541,6 +588,7 @@
                           class="form-control"
                           placeholder="Nhập vào hình sản phẩm"
                         />
+                        <div class="notifi" id="tbCompanyname"></div>
                       </div>
                       <div class="form-group">
                         <label>Total invoice</label>
@@ -549,6 +597,7 @@
                           class="form-control"
                           placeholder="Nhập vào hình sản phẩm"
                         />
+                        <div class="notifi" id="tbTotalinvoice"></div>
                       </div>
                       <div class="form-group">
                         <label>Rank</label>
@@ -557,6 +606,7 @@
                           class="form-control"
                           placeholder="Nhập vào hình sản phẩm"
                         />
+                        <div class="notifi" id="tbRank"></div>
                       </div>
                     </div>
                     <!-- Modal footer -->

@@ -1,6 +1,7 @@
-import {getEle,store} from "./helpers.js";
-import {Student} from "./constructor.js";
-import {studentList} from './main.js';
+import {getEle,store, findI} from "./helpers.js";
+import {Student,Person} from "./constructor.js";
+import {studentList,listPersons} from './main.js';
+import {valStu} from "./validate.js";
 // add student
 export function addStudent() {
     // DOM
@@ -12,33 +13,37 @@ export function addStudent() {
     let physical = getEle('#Physical').value;
     let chemistry = getEle('#Chemistry').value;
     let type = 'Student';
+    // check validate
+    if(!valStu()) return;
+
     const studentAdd =  new Student (code,fullname,address,email,math,physical,chemistry,type);
+    const personAdd = new Person (code,fullname,address,email, type);
+    listPersons.push(personAdd);
     studentList.push(studentAdd);
     alert(`Successful created new Student :${fullname}`);
-    return studentList;
+    store('studentList',studentList);
+    store('listPersons',listPersons);
+    resetFormStudent();
 };
 
 // delete student
 export function deleteStudent(code) {
-    studentListAfter = studentList.filter((student) => {
-        if(student.code == code) alert(`Successful delete Student :${student.fullname}`);
-        return student.code !== code;
-    });
-    return studentListAfter;
-};
-
+    let iS = findI(code,studentList);
+    alert(`Successful delete Student :${studentList[iS].fullname}`);
+    studentList.splice(iS,1);
+    listPersons.splice(findI(code,listPersons),1);
+    store('studentList',studentList);
+    store('listPersons',listPersons);
+}
 // select student
 export function selectStudent(code) {
-    let studentSelect = studentList.find((student) => {
-        return student.code === code;
-    });
-    getEle('#CodeStudent').value = studentSelect.code;
-    getEle('#FullNameStudent').value = studentSelect.fullname;
-    getEle('#AddressStudent').value = studentSelect.address;
-    getEle('#EmailStudent').value = studentSelect.email;
-    getEle('#Math').value = studentSelect.math;
-    getEle('#Physical').value = studentSelect.physical;
-    getEle('#Chemistry').value = studentSelect.chemistry;
+    getEle('#CodeStudent').value = studentList[findI(code,studentList)].code;
+    getEle('#FullNameStudent').value = studentList[findI(code,studentList)].fullname;
+    getEle('#AddressStudent').value = studentList[findI(code,studentList)].address;
+    getEle('#EmailStudent').value = studentList[findI(code,studentList)].email;
+    getEle('#Math').value = studentList[findI(code,studentList)].math;
+    getEle('#Physical').value = studentList[findI(code,studentList)].physical;
+    getEle('#Chemistry').value = studentList[findI(code,studentList)].chemistry;
     
     let html = `
         <button class="btn btn-secondary" data-dismiss="modal" id="cancle" >Cancle</button>
@@ -48,7 +53,7 @@ export function selectStudent(code) {
 };
 
 // update student
-export function updateStudent(studentList) {
+export function updateStudent() {
     let code = getEle('#CodeStudent').value;
     let fullname = getEle('#FullNameStudent').value;
     let address = getEle('#AddressStudent').value;
@@ -57,24 +62,19 @@ export function updateStudent(studentList) {
     let physical = getEle('#Physical').value;
     let chemistry = getEle('#Chemistry').value;
     let type = 'Student';
+    // check validate
+    if(!valStu()) return;
     const studentUpdate =  new Student (code,fullname,address,email,math,physical,chemistry,type);
+    const personAdd = new Person (code,fullname,address,email,type);
     
-    let index = studentList.findIndex((studentUpdate) => {
-        return studentUpdate.code === code;
-    });
+    studentList[findI(code,studentList)] = studentUpdate;
+    listPersons[findI(code,listPersons)] = personAdd;
 
-    studentList[index] = studentUpdate;
-    return studentList;
+    store('studentList',studentList);
+    store('listPersons',listPersons);
+    alert(`Successful update Student :${fullname}`);
+    resetFormStudent();
 };
-
-export function searchStudent(searchName) {
-    let newStudent = studentList.filter((student) => {
-        let typeStudent = student.fullname.toLowerCase();
-        searchName = searchName.toLowerCase();
-        return typeStudent.indexOf(searchName) !== -1;
-    })
-    return newStudent;
-}
 
 // reset form student
 export function resetFormStudent() {
@@ -87,20 +87,3 @@ export function resetFormStudent() {
     getEle('#Chemistry').value = '';
 };
 
-
-let sortArray;
-function sortedUp() {
-    function compare(a, b) {
-          return a.price - b.price;
-        };
-    sortArray = productsList.sort(compare);
-    renderProducts(sortArray);
-};
-
-function sorteDown() {
-    function compare(a, b) {
-          return b.price - a.price;
-        };
-    sortArray = productsList.sort(compare);
-    renderProducts(sortArray);
-};
