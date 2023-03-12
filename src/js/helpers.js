@@ -26,6 +26,7 @@ export function getStore(key) {
             person.email,
             person.type);
     }
+
     return personList;
 };
 
@@ -85,7 +86,7 @@ export function getStoreCustomer(key) {
             customer.email,
             customer.companyname, 
             +customer.totalinvoice,
-            +customer.rank,
+            customer.rank,
             customer.type);
     }
     return customerList;

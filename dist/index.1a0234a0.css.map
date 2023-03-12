@@ -1,0 +1,1 @@
+{"mappings":"ACAA","sources":["index.1a0234a0.css","src/SCSS/main.scss"],"sourcesContent":[".notifi {\n  color: #dc3545;\n  margin-left: 12px;\n  font-size: 12px;\n}\n\n/*# sourceMappingURL=index.1a0234a0.css.map */\n",".notifi{\n    color: #dc3545;\n    font-size: 12px;\n    margin-left:12px;\n}"],"names":[],"version":3,"file":"index.1a0234a0.css.map"}

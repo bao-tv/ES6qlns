@@ -1,4 +1,4 @@
-import {getEle, getStore, getStoreStudent, getStoreEmployee, getStoreCustomer, search,sortdUp,sortDown} from "./helpers.js";
+import {getEle,getStore, getStoreStudent, getStoreEmployee, getStoreCustomer, search,sortdUp,sortDown} from "./helpers.js";
 import {renderStudent, renderEmployee,renderListPersons,renderCustomer} from "./render.js";
 import {addStudent, deleteStudent, selectStudent, updateStudent, resetFormStudent} from './studentfunc.js';
 import {addEmployee, deleteEmployee, selectEmployee, updateEmployee, resetFormEmployee} from './employeefunc';
@@ -17,6 +17,7 @@ renderListPersons(listPersons);
 // =================== Student =========================
 // DOM Created Student
 getEle('#btnAddStudent').addEventListener('click', () => {
+    getEle('#CodeStudent').disabled = false;
     let html = `
     <button class="btn btn-secondary" data-dismiss="modal" id="cancle" >Cancle</button>
     <button class="btn btn-success ml-2" >Created</button>
@@ -27,10 +28,10 @@ getEle('#btnAddStudent').addEventListener('click', () => {
 getEle('.modal-footer-Student').addEventListener('click', (evt) => {
     // Created Student
     if(evt.target.innerHTML === 'Created') {
+        
         addStudent();
         renderStudent(studentList);
         renderListPersons(listPersons);
-
     } ;
 
     // Update Student
@@ -43,13 +44,14 @@ getEle('.modal-footer-Student').addEventListener('click', (evt) => {
     if(evt.target.innerHTML === 'Cancle') resetFormStudent(); 
 });
 
-// delete Student
+// delete or select Student
 getEle('#tblStudentList').addEventListener('click', (evt) => {
     if(evt.target.innerHTML === 'Delete') {
         deleteStudent(evt.target.getAttribute("data-id"));
         renderStudent(studentList);
         renderListPersons(listPersons);
     } else if (evt.target.innerHTML === 'Update') {
+        getEle('#CodeStudent').disabled = true;
         selectStudent(evt.target.getAttribute("data-id"));
     }
 });
@@ -65,12 +67,10 @@ getEle('#txtSearchStudent').addEventListener('keydown', (evt) => {
 // arrange A-Z or Z-A
 getEle('#studentSort').addEventListener('change', (evt) => {
     if(evt.target.value == 1) {
-        let sort = sortdUp(studentList);
-        renderStudent(sort);
+        renderStudent(sortdUp(studentList));
     };
     if(evt.target.value == 2) {
-        let sort = sortDown(studentList);
-        renderStudent(sort);
+        renderStudent(sortDown(studentList));
     };
 });
 
@@ -78,12 +78,12 @@ getEle('#studentSort').addEventListener('change', (evt) => {
 // =================== Employee =========================
 // DOM Created Employee
 getEle('#btnAddEmployee').addEventListener('click', () => {
-    console.log('click employee');
     let html = `
-    <button class="btn btn-secondary" data-dismiss="modal" id="cancle" >Cancle</button>
-    <button class="btn btn-success ml-2" >Created</button>
+        <button class="btn btn-secondary" data-dismiss="modal" id="cancle" >Cancle</button>
+        <button class="btn btn-success ml-2" >Created</button>
     `;
     getEle('.modal-footer-Employee').innerHTML = html;
+    getEle('#CodeEmployee').disabled = false;
 });
 
 getEle('.modal-footer-Employee').addEventListener('click', (evt) => {
@@ -111,6 +111,7 @@ getEle('#tblEmployeeList').addEventListener('click', (evt) => {
         renderEmployee(employeeList);
         renderListPersons(listPersons);
     } else if (evt.target.innerHTML === 'Update') {
+        getEle('#CodeEmployee').disabled = true;
         selectEmployee(evt.target.getAttribute("data-id"));
     }
 });
@@ -126,12 +127,10 @@ getEle('#txtSearchEmployee').addEventListener('keydown', (evt) => {
 // // arrange A-Z or Z-A
 getEle('#employeeSort').addEventListener('change', (evt) => {
     if(evt.target.value == 1) {
-        let sort = sortdUp(employeeList);
-        renderEmployee(sort);
+        renderEmployee(sortdUp(employeeList));
     };
     if(evt.target.value == 2) {
-        let sort = sortDown(employeeList);
-        renderEmployee(sort);
+        renderEmployee(sortDown(employeeList));
     };
 });
 
@@ -139,10 +138,11 @@ getEle('#employeeSort').addEventListener('change', (evt) => {
 // DOM Created Customer
 getEle('#btnAddCustomer').addEventListener('click', () => {
     let html = `
-    <button class="btn btn-secondary" data-dismiss="modal" id="cancle" >Cancle</button>
-    <button class="btn btn-success ml-2" >Created</button>
+        <button class="btn btn-secondary" data-dismiss="modal" id="cancle" >Cancle</button>
+        <button class="btn btn-success ml-2" >Created</button>
     `;
     getEle('.modal-footer-Customer').innerHTML = html;
+    getEle('#CodeCustomer').disabled = false;
 });
 
 getEle('.modal-footer-Customer').addEventListener('click', (evt) => {
@@ -152,14 +152,12 @@ getEle('.modal-footer-Customer').addEventListener('click', (evt) => {
         renderCustomer(customerList);
         renderListPersons(listPersons);
     } ;
-
     // Update Student
     if(evt.target.innerHTML === 'Update') {
         updateCustomer();
         renderCustomer(customerList);
         renderListPersons(listPersons);
     } ;
-
     if(evt.target.innerHTML === 'Cancle') resetFormCustomer(); 
 });
 
@@ -171,6 +169,7 @@ getEle('#tblCustomerList').addEventListener('click', (evt) => {
         renderListPersons(listPersons);
 
     } else if (evt.target.innerHTML === 'Update') {
+        getEle('#CodeCustomer').disabled = true;
         selectCustomer(evt.target.getAttribute("data-id"));
     }
 });
@@ -186,12 +185,10 @@ getEle('#txtSearchCustomer').addEventListener('keydown', (evt) => {
 // // // arrange A-Z or Z-A
 getEle('#customerSort').addEventListener('change', (evt) => {
     if(evt.target.value == 1) {
-        let sort = sortdUp(customerList);
-        renderCustomer(sort);
+        renderCustomer(sortdUp(customerList));
     };
     if(evt.target.value == 2) {
-        let sort = sortDown(customerList);
-        renderCustomer(sort);
+        renderCustomer(sortDown(customerList));
     };
 });
 
@@ -207,12 +204,9 @@ getEle('#txtSearchListPerson').addEventListener('keydown', (evt) => {
 // // arrange A-Z or Z-A
 getEle('#listPersonSort').addEventListener('change', (evt) => {
     if(evt.target.value == 1) {
-        let sort = sortdUp(listPersons);
-        renderListPersons(sort);
+        renderListPersons(sortdUp(listPersons));
     };
     if(evt.target.value == 2) {
-        let sort = sortDown(listPersons);
-        renderListPersons(sort);
+        renderListPersons(sortDown(listPersons));
     };
 });
-

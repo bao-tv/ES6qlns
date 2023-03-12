@@ -20,30 +20,31 @@ export function addStudent() {
     const personAdd = new Person (code,fullname,address,email, type);
     listPersons.push(personAdd);
     studentList.push(studentAdd);
-    alert(`Successful created new Student :${fullname}`);
     store('studentList',studentList);
     store('listPersons',listPersons);
+    alert(`Successful created new Student :${fullname}`);
     resetFormStudent();
 };
 
 // delete student
 export function deleteStudent(code) {
     let iS = findI(code,studentList);
-    alert(`Successful delete Student :${studentList[iS].fullname}`);
     studentList.splice(iS,1);
     listPersons.splice(findI(code,listPersons),1);
     store('studentList',studentList);
     store('listPersons',listPersons);
+    alert(`Successful delete Student :${studentList[iS].fullname}`);
 }
 // select student
 export function selectStudent(code) {
-    getEle('#CodeStudent').value = studentList[findI(code,studentList)].code;
-    getEle('#FullNameStudent').value = studentList[findI(code,studentList)].fullname;
-    getEle('#AddressStudent').value = studentList[findI(code,studentList)].address;
-    getEle('#EmailStudent').value = studentList[findI(code,studentList)].email;
-    getEle('#Math').value = studentList[findI(code,studentList)].math;
-    getEle('#Physical').value = studentList[findI(code,studentList)].physical;
-    getEle('#Chemistry').value = studentList[findI(code,studentList)].chemistry;
+    const id = findI(code,studentList);
+    getEle('#CodeStudent').value = studentList[id].code;
+    getEle('#FullNameStudent').value = studentList[id].fullname;
+    getEle('#AddressStudent').value = studentList[id].address;
+    getEle('#EmailStudent').value = studentList[id].email;
+    getEle('#Math').value = studentList[id].math;
+    getEle('#Physical').value = studentList[id].physical;
+    getEle('#Chemistry').value = studentList[id].chemistry;
     
     let html = `
         <button class="btn btn-secondary" data-dismiss="modal" id="cancle" >Cancle</button>
@@ -63,7 +64,8 @@ export function updateStudent() {
     let chemistry = getEle('#Chemistry').value;
     let type = 'Student';
     // check validate
-    if(!valStu()) return;
+
+    if(!valStu('Update')) return;
     const studentUpdate =  new Student (code,fullname,address,email,math,physical,chemistry,type);
     const personAdd = new Person (code,fullname,address,email,type);
     

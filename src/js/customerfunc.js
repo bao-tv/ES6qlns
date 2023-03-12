@@ -21,31 +21,32 @@ export function addCustomer() {
     const personAdd = new Person (code,fullname,address,email, type)
     listPersons.push(personAdd);
     customerList.push(customerAdd);
-    alert(`Successful created new Customer :${fullname}`);
     store('listPersons',listPersons);
     store('customerList',customerList);
+    alert(`Successful created new Customer :${fullname}`);
     resetFormCustomer();
 };
 
 // delete 
 export function deleteCustomer(code) {
     let eS = findI(code,customerList);
-    alert(`Successful delete Customer :${customerList[eS].fullname}`);
     customerList.splice(eS,1);
     listPersons.splice(findI(code,listPersons),1);
     store('listPersons',listPersons);
     store('customerList',customerList);
+    alert(`Successful delete Customer :${customerList[eS].fullname}`);
 };
 
  // select
 export function selectCustomer(code) {
-    getEle('#CodeCustomer').value = customerList[findI(code,customerList)].code;
-    getEle('#FullNameCustomer').value = customerList[findI(code,customerList)].fullname;
-    getEle('#AddressCustomer').value = customerList[findI(code,customerList)].address;
-    getEle('#EmailCustomer').value = customerList[findI(code,customerList)].email;
-    getEle('#Companyname').value = customerList[findI(code,customerList)].companyname;
-    getEle('#Totalinvoice').value = customerList[findI(code,customerList)].totalinvoice;
-    getEle('#Rank').value = customerList[findI(code,customerList)].rank;
+    const id = findI(code,customerList);
+    getEle('#CodeCustomer').value = customerList[id].code;
+    getEle('#FullNameCustomer').value = customerList[id].fullname;
+    getEle('#AddressCustomer').value = customerList[id].address;
+    getEle('#EmailCustomer').value = customerList[id].email;
+    getEle('#Companyname').value = customerList[id].companyname;
+    getEle('#Totalinvoice').value = customerList[id].totalinvoice;
+    getEle('#Rank').value = customerList[id].rank;
     
     let html = `
         <button class="btn btn-secondary" data-dismiss="modal" id="cancle" >Cancle</button>
@@ -65,7 +66,8 @@ export function updateCustomer() {
     let rank = getEle('#Rank').value;
     let type = 'Customer';
     // check validate
-    if(!valCus()) return;
+    getEle('#CodeStudent').disabled = true;
+    if(!valCus('Update')) return;
     const CustomerUpdate =  new Customer (code,fullname,address,email,companyName,totalInvoice,rank,type);
     const personUpdate = new Person (code,fullname,address,email,type);
     customerList[findI(code,customerList)] = CustomerUpdate;

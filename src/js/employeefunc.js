@@ -18,9 +18,9 @@ export function addEmployee() {
     const personAdd = new Person (code,fullname,address,email, type)
     listPersons.push(personAdd);
     employeeList.push(EmployeeAdd);
-    alert(`Successful created new Employee :${fullname}`);
     store('employeeList',employeeList);
     store('listPersons',listPersons);
+    alert(`Successful created new Employee :${fullname}`);
     resetFormEmployee();
 };
 
@@ -36,21 +36,22 @@ export function resetFormEmployee() {
 // delete 
 export function deleteEmployee(code) {
     let eS = findI(code,employeeList);
-    alert(`Successful delete Employee :${employeeList[eS].fullname}`);
     employeeList.splice(eS,1);
     listPersons.splice(findI(code,listPersons),1);
     store('employeeList',employeeList);
     store('listPersons',listPersons);
+    alert(`Successful delete Employee :${employeeList[eS].fullname}`);
 }
 
 // select
 export function selectEmployee(code) {
-    getEle('#CodeEmployee').value = employeeList[findI(code,employeeList)].code;
-    getEle('#FullNameEmployee').value = employeeList[findI(code,employeeList)].fullname;
-    getEle('#AddressEmployee').value = employeeList[findI(code,employeeList)].address;
-    getEle('#EmailEmployee').value = employeeList[findI(code,employeeList)].email;
-    getEle('#Workingday').value = employeeList[findI(code,employeeList)].workingday;
-    getEle('#Dailywage').value = employeeList[findI(code,employeeList)].dailywage;
+    const id = findI(code,employeeList);
+    getEle('#CodeEmployee').value = employeeList[id].code;
+    getEle('#FullNameEmployee').value = employeeList[id].fullname;
+    getEle('#AddressEmployee').value = employeeList[id].address;
+    getEle('#EmailEmployee').value = employeeList[id].email;
+    getEle('#Workingday').value = employeeList[id].workingday;
+    getEle('#Dailywage').value = employeeList[id].dailywage;
     
     let html = `
         <button class="btn btn-secondary" data-dismiss="modal" id="cancle" >Cancle</button>
@@ -69,7 +70,7 @@ export function updateEmployee() {
     let dailywage = getEle('#Dailywage').value;
     let type = 'Employee';
     // check validate
-    if(!valEmp()) return;
+    if(!valEmp('Update')) return;
     const employeeUpdate =  new Employee (code,fullname,address,email,workingday,dailywage,type);
     const personUpdate = new Person (code,fullname,address,email,type);
     employeeList[findI(code,employeeList)] = employeeUpdate;

@@ -579,6 +579,7 @@ let listPersons = (0, _helpersJs.getStore)("listPersons");
 // =================== Student =========================
 // DOM Created Student
 (0, _helpersJs.getEle)("#btnAddStudent").addEventListener("click", ()=>{
+    (0, _helpersJs.getEle)("#CodeStudent").disabled = false;
     let html = `
     <button class="btn btn-secondary" data-dismiss="modal" id="cancle" >Cancle</button>
     <button class="btn btn-success ml-2" >Created</button>
@@ -600,13 +601,16 @@ let listPersons = (0, _helpersJs.getStore)("listPersons");
     }
     if (evt.target.innerHTML === "Cancle") (0, _studentfuncJs.resetFormStudent)();
 });
-// delete Student
+// delete or select Student
 (0, _helpersJs.getEle)("#tblStudentList").addEventListener("click", (evt)=>{
     if (evt.target.innerHTML === "Delete") {
         (0, _studentfuncJs.deleteStudent)(evt.target.getAttribute("data-id"));
         (0, _renderJs.renderStudent)(studentList);
         (0, _renderJs.renderListPersons)(listPersons);
-    } else if (evt.target.innerHTML === "Update") (0, _studentfuncJs.selectStudent)(evt.target.getAttribute("data-id"));
+    } else if (evt.target.innerHTML === "Update") {
+        (0, _helpersJs.getEle)("#CodeStudent").disabled = true;
+        (0, _studentfuncJs.selectStudent)(evt.target.getAttribute("data-id"));
+    }
 });
 // search
 (0, _helpersJs.getEle)("#txtSearchStudent").addEventListener("keydown", (evt)=>{
@@ -617,24 +621,18 @@ let listPersons = (0, _helpersJs.getStore)("listPersons");
 });
 // arrange A-Z or Z-A
 (0, _helpersJs.getEle)("#studentSort").addEventListener("change", (evt)=>{
-    if (evt.target.value == 1) {
-        let sort = (0, _helpersJs.sortdUp)(studentList);
-        (0, _renderJs.renderStudent)(sort);
-    }
-    if (evt.target.value == 2) {
-        let sort = (0, _helpersJs.sortDown)(studentList);
-        (0, _renderJs.renderStudent)(sort);
-    }
+    if (evt.target.value == 1) (0, _renderJs.renderStudent)((0, _helpersJs.sortdUp)(studentList));
+    if (evt.target.value == 2) (0, _renderJs.renderStudent)((0, _helpersJs.sortDown)(studentList));
 });
 // =================== Employee =========================
 // DOM Created Employee
 (0, _helpersJs.getEle)("#btnAddEmployee").addEventListener("click", ()=>{
-    console.log("click employee");
     let html = `
-    <button class="btn btn-secondary" data-dismiss="modal" id="cancle" >Cancle</button>
-    <button class="btn btn-success ml-2" >Created</button>
+        <button class="btn btn-secondary" data-dismiss="modal" id="cancle" >Cancle</button>
+        <button class="btn btn-success ml-2" >Created</button>
     `;
     (0, _helpersJs.getEle)(".modal-footer-Employee").innerHTML = html;
+    (0, _helpersJs.getEle)("#CodeEmployee").disabled = false;
 });
 (0, _helpersJs.getEle)(".modal-footer-Employee").addEventListener("click", (evt)=>{
     // Created Employee
@@ -657,7 +655,10 @@ let listPersons = (0, _helpersJs.getStore)("listPersons");
         (0, _employeefunc.deleteEmployee)(evt.target.getAttribute("data-id"));
         (0, _renderJs.renderEmployee)(employeeList);
         (0, _renderJs.renderListPersons)(listPersons);
-    } else if (evt.target.innerHTML === "Update") (0, _employeefunc.selectEmployee)(evt.target.getAttribute("data-id"));
+    } else if (evt.target.innerHTML === "Update") {
+        (0, _helpersJs.getEle)("#CodeEmployee").disabled = true;
+        (0, _employeefunc.selectEmployee)(evt.target.getAttribute("data-id"));
+    }
 });
 // // search
 (0, _helpersJs.getEle)("#txtSearchEmployee").addEventListener("keydown", (evt)=>{
@@ -668,23 +669,18 @@ let listPersons = (0, _helpersJs.getStore)("listPersons");
 });
 // // arrange A-Z or Z-A
 (0, _helpersJs.getEle)("#employeeSort").addEventListener("change", (evt)=>{
-    if (evt.target.value == 1) {
-        let sort = (0, _helpersJs.sortdUp)(employeeList);
-        (0, _renderJs.renderEmployee)(sort);
-    }
-    if (evt.target.value == 2) {
-        let sort = (0, _helpersJs.sortDown)(employeeList);
-        (0, _renderJs.renderEmployee)(sort);
-    }
+    if (evt.target.value == 1) (0, _renderJs.renderEmployee)((0, _helpersJs.sortdUp)(employeeList));
+    if (evt.target.value == 2) (0, _renderJs.renderEmployee)((0, _helpersJs.sortDown)(employeeList));
 });
 // =================== Customer =========================
 // DOM Created Customer
 (0, _helpersJs.getEle)("#btnAddCustomer").addEventListener("click", ()=>{
     let html = `
-    <button class="btn btn-secondary" data-dismiss="modal" id="cancle" >Cancle</button>
-    <button class="btn btn-success ml-2" >Created</button>
+        <button class="btn btn-secondary" data-dismiss="modal" id="cancle" >Cancle</button>
+        <button class="btn btn-success ml-2" >Created</button>
     `;
     (0, _helpersJs.getEle)(".modal-footer-Customer").innerHTML = html;
+    (0, _helpersJs.getEle)("#CodeCustomer").disabled = false;
 });
 (0, _helpersJs.getEle)(".modal-footer-Customer").addEventListener("click", (evt)=>{
     // Created Customer
@@ -707,7 +703,10 @@ let listPersons = (0, _helpersJs.getStore)("listPersons");
         (0, _customerfunc.deleteCustomer)(evt.target.getAttribute("data-id"));
         (0, _renderJs.renderCustomer)(customerList);
         (0, _renderJs.renderListPersons)(listPersons);
-    } else if (evt.target.innerHTML === "Update") (0, _customerfunc.selectCustomer)(evt.target.getAttribute("data-id"));
+    } else if (evt.target.innerHTML === "Update") {
+        (0, _helpersJs.getEle)("#CodeCustomer").disabled = true;
+        (0, _customerfunc.selectCustomer)(evt.target.getAttribute("data-id"));
+    }
 });
 // // // search
 (0, _helpersJs.getEle)("#txtSearchCustomer").addEventListener("keydown", (evt)=>{
@@ -718,14 +717,8 @@ let listPersons = (0, _helpersJs.getStore)("listPersons");
 });
 // // // arrange A-Z or Z-A
 (0, _helpersJs.getEle)("#customerSort").addEventListener("change", (evt)=>{
-    if (evt.target.value == 1) {
-        let sort = (0, _helpersJs.sortdUp)(customerList);
-        (0, _renderJs.renderCustomer)(sort);
-    }
-    if (evt.target.value == 2) {
-        let sort = (0, _helpersJs.sortDown)(customerList);
-        (0, _renderJs.renderCustomer)(sort);
-    }
+    if (evt.target.value == 1) (0, _renderJs.renderCustomer)((0, _helpersJs.sortdUp)(customerList));
+    if (evt.target.value == 2) (0, _renderJs.renderCustomer)((0, _helpersJs.sortDown)(customerList));
 });
 // =================== ListPeron =========================
 // // search
@@ -737,14 +730,8 @@ let listPersons = (0, _helpersJs.getStore)("listPersons");
 });
 // // arrange A-Z or Z-A
 (0, _helpersJs.getEle)("#listPersonSort").addEventListener("change", (evt)=>{
-    if (evt.target.value == 1) {
-        let sort = (0, _helpersJs.sortdUp)(listPersons);
-        (0, _renderJs.renderListPersons)(sort);
-    }
-    if (evt.target.value == 2) {
-        let sort = (0, _helpersJs.sortDown)(listPersons);
-        (0, _renderJs.renderListPersons)(sort);
-    }
+    if (evt.target.value == 1) (0, _renderJs.renderListPersons)((0, _helpersJs.sortdUp)(listPersons));
+    if (evt.target.value == 2) (0, _renderJs.renderListPersons)((0, _helpersJs.sortDown)(listPersons));
 });
 
 },{"./helpers.js":"hGI1E","./render.js":"6Nkx6","./studentfunc.js":"kwUO3","./employeefunc":"jtQCe","./customerfunc":"hpm2F","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hGI1E":[function(require,module,exports) {
@@ -811,7 +798,7 @@ function getStoreCustomer(key) {
     const customerList = JSON.parse(json);
     for(let i = 0; i < customerList.length; i++){
         const customer = customerList[i];
-        customerList[i] = new (0, _constructorJs.Customer)(customer.code, customer.fullname, customer.address, customer.email, customer.companyname, +customer.totalinvoice, +customer.rank, customer.type);
+        customerList[i] = new (0, _constructorJs.Customer)(customer.code, customer.fullname, customer.address, customer.email, customer.companyname, +customer.totalinvoice, customer.rank, customer.type);
     }
     return customerList;
 }
@@ -961,7 +948,7 @@ function renderStudent(studentList) {
                 <td>${student.math}</td>
                 <td>${student.physical}</td>
                 <td>${student.chemistry}</td>
-                <td>${student.calcMedium()}</td>
+                <td>${student.calcMedium().toFixed(2)}</td>
                 <td>
                     <button class="btn btn-primary" data-toggle="modal"
                     data-target="#StudentModal" data-id="${student.code}">Update</button>
@@ -981,9 +968,9 @@ function renderEmployee(employeeList) {
                 <td>${employee.address}</td>
                 <td>${employee.code}</td>
                 <td>${employee.email}</td>
-                <td>${employee.workingday}</td>
-                <td>${employee.dailywage}</td>
-                <td>${employee.calcSalary()}</td>
+                <td>${employee.workingday.toLocaleString()}</td>
+                <td>${employee.dailywage.toLocaleString()}</td>
+                <td>${employee.calcSalary().toLocaleString()}</td>
                 <td>
                     <button class="btn btn-primary" data-toggle="modal"
                     data-target="#EmployeeModal" data-id="${employee.code}">Update</button>
@@ -1004,7 +991,7 @@ function renderCustomer(CustomerList) {
                 <td>${Customer.code}</td>
                 <td>${Customer.email}</td>
                 <td>${Customer.companyname}</td>
-                <td>${Customer.totalinvoice}</td>
+                <td>${Customer.totalinvoice.toLocaleString()}</td>
                 <td>${Customer.rank}</td>
                 <td>
                     <button class="btn btn-primary" data-toggle="modal"
@@ -1065,27 +1052,28 @@ function addStudent() {
     const personAdd = new (0, _constructorJs.Person)(code, fullname, address, email, type);
     (0, _mainJs.listPersons).push(personAdd);
     (0, _mainJs.studentList).push(studentAdd);
-    alert(`Successful created new Student :${fullname}`);
     (0, _helpersJs.store)("studentList", (0, _mainJs.studentList));
     (0, _helpersJs.store)("listPersons", (0, _mainJs.listPersons));
+    alert(`Successful created new Student :${fullname}`);
     resetFormStudent();
 }
 function deleteStudent(code) {
     let iS = (0, _helpersJs.findI)(code, (0, _mainJs.studentList));
-    alert(`Successful delete Student :${(0, _mainJs.studentList)[iS].fullname}`);
     (0, _mainJs.studentList).splice(iS, 1);
     (0, _mainJs.listPersons).splice((0, _helpersJs.findI)(code, (0, _mainJs.listPersons)), 1);
     (0, _helpersJs.store)("studentList", (0, _mainJs.studentList));
     (0, _helpersJs.store)("listPersons", (0, _mainJs.listPersons));
+    alert(`Successful delete Student :${(0, _mainJs.studentList)[iS].fullname}`);
 }
 function selectStudent(code) {
-    (0, _helpersJs.getEle)("#CodeStudent").value = (0, _mainJs.studentList)[(0, _helpersJs.findI)(code, (0, _mainJs.studentList))].code;
-    (0, _helpersJs.getEle)("#FullNameStudent").value = (0, _mainJs.studentList)[(0, _helpersJs.findI)(code, (0, _mainJs.studentList))].fullname;
-    (0, _helpersJs.getEle)("#AddressStudent").value = (0, _mainJs.studentList)[(0, _helpersJs.findI)(code, (0, _mainJs.studentList))].address;
-    (0, _helpersJs.getEle)("#EmailStudent").value = (0, _mainJs.studentList)[(0, _helpersJs.findI)(code, (0, _mainJs.studentList))].email;
-    (0, _helpersJs.getEle)("#Math").value = (0, _mainJs.studentList)[(0, _helpersJs.findI)(code, (0, _mainJs.studentList))].math;
-    (0, _helpersJs.getEle)("#Physical").value = (0, _mainJs.studentList)[(0, _helpersJs.findI)(code, (0, _mainJs.studentList))].physical;
-    (0, _helpersJs.getEle)("#Chemistry").value = (0, _mainJs.studentList)[(0, _helpersJs.findI)(code, (0, _mainJs.studentList))].chemistry;
+    const id = (0, _helpersJs.findI)(code, (0, _mainJs.studentList));
+    (0, _helpersJs.getEle)("#CodeStudent").value = (0, _mainJs.studentList)[id].code;
+    (0, _helpersJs.getEle)("#FullNameStudent").value = (0, _mainJs.studentList)[id].fullname;
+    (0, _helpersJs.getEle)("#AddressStudent").value = (0, _mainJs.studentList)[id].address;
+    (0, _helpersJs.getEle)("#EmailStudent").value = (0, _mainJs.studentList)[id].email;
+    (0, _helpersJs.getEle)("#Math").value = (0, _mainJs.studentList)[id].math;
+    (0, _helpersJs.getEle)("#Physical").value = (0, _mainJs.studentList)[id].physical;
+    (0, _helpersJs.getEle)("#Chemistry").value = (0, _mainJs.studentList)[id].chemistry;
     let html = `
         <button class="btn btn-secondary" data-dismiss="modal" id="cancle" >Cancle</button>
         <button class="btn btn-success ml-2" id="updateStudent" >Update</button>
@@ -1102,7 +1090,7 @@ function updateStudent() {
     let chemistry = (0, _helpersJs.getEle)("#Chemistry").value;
     let type = "Student";
     // check validate
-    if (!(0, _validateJs.valStu)()) return;
+    if (!(0, _validateJs.valStu)("Update")) return;
     const studentUpdate = new (0, _constructorJs.Student)(code, fullname, address, email, math, physical, chemistry, type);
     const personAdd = new (0, _constructorJs.Person)(code, fullname, address, email, type);
     (0, _mainJs.studentList)[(0, _helpersJs.findI)(code, (0, _mainJs.studentList))] = studentUpdate;
@@ -1151,12 +1139,11 @@ function checkExist(id) {
 }
 function valStu(evt) {
     let isValid = true;
-    // check code
     if (checkEmpty("#CodeStudent")) {
         isValid = false;
         (0, _helpersJs.getEle)("#tbCodeStudent").style.display = "block";
         (0, _helpersJs.getEle)("#tbCodeStudent").innerHTML = "not Empty!";
-    } else if (checkExist("#CodeStudent")) {
+    } else if (checkExist("#CodeStudent") && evt !== "Update") {
         isValid = false;
         (0, _helpersJs.getEle)("#tbCodeStudent").style.display = "block";
         (0, _helpersJs.getEle)("#tbCodeStudent").innerHTML = "already exists!";
@@ -1165,6 +1152,7 @@ function valStu(evt) {
         (0, _helpersJs.getEle)("#tbCodeStudent").style.display = "block";
         (0, _helpersJs.getEle)("#tbCodeStudent").innerHTML = "from 4-6 characters and no special characters!";
     } else (0, _helpersJs.getEle)("#tbCodeStudent").style.display = "none";
+    // check code
     // fullname
     if (checkEmpty("#FullNameStudent")) {
         isValid = false;
@@ -1216,7 +1204,7 @@ function valEmp(evt) {
         isValid = false;
         (0, _helpersJs.getEle)("#tbCodeEmployee").style.display = "block";
         (0, _helpersJs.getEle)("#tbCodeEmployee").innerHTML = "not Empty!";
-    } else if (checkExist("#CodeEmployee")) {
+    } else if (checkExist("#CodeEmployee") && evt !== "Update") {
         isValid = false;
         (0, _helpersJs.getEle)("#tbCodeEmployee").style.display = "block";
         (0, _helpersJs.getEle)("#tbCodeEmployee").innerHTML = "already exists!";
@@ -1266,10 +1254,11 @@ function valCus(evt) {
         isValid = false;
         (0, _helpersJs.getEle)("#tbCodeCustomer").style.display = "block";
         (0, _helpersJs.getEle)("#tbCodeCustomer").innerHTML = "not Empty!";
-    } else if (checkExist("#CodeCustomer")) {
+    } else if (checkExist("#CodeCustomer") && evt !== "Update") {
         isValid = false;
         (0, _helpersJs.getEle)("#tbCodeCustomer").style.display = "block";
         (0, _helpersJs.getEle)("#tbCodeCustomer").innerHTML = "already exists!";
+        console.log();
     } else if (!(0, _helpersJs.getEle)("#CodeCustomer").value.match(arrCharCode) || (0, _helpersJs.getEle)("#CodeCustomer").value.length < 4 || (0, _helpersJs.getEle)("#CodeCustomer").value.length > 6) {
         isValid = false;
         (0, _helpersJs.getEle)("#tbCodeCustomer").style.display = "block";
@@ -1326,9 +1315,9 @@ function addEmployee() {
     const personAdd = new (0, _constructorJs.Person)(code, fullname, address, email, type);
     (0, _mainJs.listPersons).push(personAdd);
     (0, _mainJs.employeeList).push(EmployeeAdd);
-    alert(`Successful created new Employee :${fullname}`);
     (0, _helpersJs.store)("employeeList", (0, _mainJs.employeeList));
     (0, _helpersJs.store)("listPersons", (0, _mainJs.listPersons));
+    alert(`Successful created new Employee :${fullname}`);
     resetFormEmployee();
 }
 function resetFormEmployee() {
@@ -1341,19 +1330,20 @@ function resetFormEmployee() {
 }
 function deleteEmployee(code) {
     let eS = (0, _helpersJs.findI)(code, (0, _mainJs.employeeList));
-    alert(`Successful delete Employee :${(0, _mainJs.employeeList)[eS].fullname}`);
     (0, _mainJs.employeeList).splice(eS, 1);
     (0, _mainJs.listPersons).splice((0, _helpersJs.findI)(code, (0, _mainJs.listPersons)), 1);
     (0, _helpersJs.store)("employeeList", (0, _mainJs.employeeList));
     (0, _helpersJs.store)("listPersons", (0, _mainJs.listPersons));
+    alert(`Successful delete Employee :${(0, _mainJs.employeeList)[eS].fullname}`);
 }
 function selectEmployee(code) {
-    (0, _helpersJs.getEle)("#CodeEmployee").value = (0, _mainJs.employeeList)[(0, _helpersJs.findI)(code, (0, _mainJs.employeeList))].code;
-    (0, _helpersJs.getEle)("#FullNameEmployee").value = (0, _mainJs.employeeList)[(0, _helpersJs.findI)(code, (0, _mainJs.employeeList))].fullname;
-    (0, _helpersJs.getEle)("#AddressEmployee").value = (0, _mainJs.employeeList)[(0, _helpersJs.findI)(code, (0, _mainJs.employeeList))].address;
-    (0, _helpersJs.getEle)("#EmailEmployee").value = (0, _mainJs.employeeList)[(0, _helpersJs.findI)(code, (0, _mainJs.employeeList))].email;
-    (0, _helpersJs.getEle)("#Workingday").value = (0, _mainJs.employeeList)[(0, _helpersJs.findI)(code, (0, _mainJs.employeeList))].workingday;
-    (0, _helpersJs.getEle)("#Dailywage").value = (0, _mainJs.employeeList)[(0, _helpersJs.findI)(code, (0, _mainJs.employeeList))].dailywage;
+    const id = (0, _helpersJs.findI)(code, (0, _mainJs.employeeList));
+    (0, _helpersJs.getEle)("#CodeEmployee").value = (0, _mainJs.employeeList)[id].code;
+    (0, _helpersJs.getEle)("#FullNameEmployee").value = (0, _mainJs.employeeList)[id].fullname;
+    (0, _helpersJs.getEle)("#AddressEmployee").value = (0, _mainJs.employeeList)[id].address;
+    (0, _helpersJs.getEle)("#EmailEmployee").value = (0, _mainJs.employeeList)[id].email;
+    (0, _helpersJs.getEle)("#Workingday").value = (0, _mainJs.employeeList)[id].workingday;
+    (0, _helpersJs.getEle)("#Dailywage").value = (0, _mainJs.employeeList)[id].dailywage;
     let html = `
         <button class="btn btn-secondary" data-dismiss="modal" id="cancle" >Cancle</button>
         <button class="btn btn-success ml-2" id="updateEmployee" >Update</button>
@@ -1369,7 +1359,7 @@ function updateEmployee() {
     let dailywage = (0, _helpersJs.getEle)("#Dailywage").value;
     let type = "Employee";
     // check validate
-    if (!(0, _validateJs.valEmp)()) return;
+    if (!(0, _validateJs.valEmp)("Update")) return;
     const employeeUpdate = new (0, _constructorJs.Employee)(code, fullname, address, email, workingday, dailywage, type);
     const personUpdate = new (0, _constructorJs.Person)(code, fullname, address, email, type);
     (0, _mainJs.employeeList)[(0, _helpersJs.findI)(code, (0, _mainJs.employeeList))] = employeeUpdate;
@@ -1413,27 +1403,28 @@ function addCustomer() {
     const personAdd = new (0, _constructorJs.Person)(code, fullname, address, email, type);
     (0, _mainJs.listPersons).push(personAdd);
     (0, _mainJs.customerList).push(customerAdd);
-    alert(`Successful created new Customer :${fullname}`);
     (0, _helpersJs.store)("listPersons", (0, _mainJs.listPersons));
     (0, _helpersJs.store)("customerList", (0, _mainJs.customerList));
+    alert(`Successful created new Customer :${fullname}`);
     resetFormCustomer();
 }
 function deleteCustomer(code) {
     let eS = (0, _helpersJs.findI)(code, (0, _mainJs.customerList));
-    alert(`Successful delete Customer :${(0, _mainJs.customerList)[eS].fullname}`);
     (0, _mainJs.customerList).splice(eS, 1);
     (0, _mainJs.listPersons).splice((0, _helpersJs.findI)(code, (0, _mainJs.listPersons)), 1);
     (0, _helpersJs.store)("listPersons", (0, _mainJs.listPersons));
     (0, _helpersJs.store)("customerList", (0, _mainJs.customerList));
+    alert(`Successful delete Customer :${(0, _mainJs.customerList)[eS].fullname}`);
 }
 function selectCustomer(code) {
-    (0, _helpersJs.getEle)("#CodeCustomer").value = (0, _mainJs.customerList)[(0, _helpersJs.findI)(code, (0, _mainJs.customerList))].code;
-    (0, _helpersJs.getEle)("#FullNameCustomer").value = (0, _mainJs.customerList)[(0, _helpersJs.findI)(code, (0, _mainJs.customerList))].fullname;
-    (0, _helpersJs.getEle)("#AddressCustomer").value = (0, _mainJs.customerList)[(0, _helpersJs.findI)(code, (0, _mainJs.customerList))].address;
-    (0, _helpersJs.getEle)("#EmailCustomer").value = (0, _mainJs.customerList)[(0, _helpersJs.findI)(code, (0, _mainJs.customerList))].email;
-    (0, _helpersJs.getEle)("#Companyname").value = (0, _mainJs.customerList)[(0, _helpersJs.findI)(code, (0, _mainJs.customerList))].companyname;
-    (0, _helpersJs.getEle)("#Totalinvoice").value = (0, _mainJs.customerList)[(0, _helpersJs.findI)(code, (0, _mainJs.customerList))].totalinvoice;
-    (0, _helpersJs.getEle)("#Rank").value = (0, _mainJs.customerList)[(0, _helpersJs.findI)(code, (0, _mainJs.customerList))].rank;
+    const id = (0, _helpersJs.findI)(code, (0, _mainJs.customerList));
+    (0, _helpersJs.getEle)("#CodeCustomer").value = (0, _mainJs.customerList)[id].code;
+    (0, _helpersJs.getEle)("#FullNameCustomer").value = (0, _mainJs.customerList)[id].fullname;
+    (0, _helpersJs.getEle)("#AddressCustomer").value = (0, _mainJs.customerList)[id].address;
+    (0, _helpersJs.getEle)("#EmailCustomer").value = (0, _mainJs.customerList)[id].email;
+    (0, _helpersJs.getEle)("#Companyname").value = (0, _mainJs.customerList)[id].companyname;
+    (0, _helpersJs.getEle)("#Totalinvoice").value = (0, _mainJs.customerList)[id].totalinvoice;
+    (0, _helpersJs.getEle)("#Rank").value = (0, _mainJs.customerList)[id].rank;
     let html = `
         <button class="btn btn-secondary" data-dismiss="modal" id="cancle" >Cancle</button>
         <button class="btn btn-success ml-2" id="updateCustomer" >Update</button>
@@ -1450,7 +1441,8 @@ function updateCustomer() {
     let rank = (0, _helpersJs.getEle)("#Rank").value;
     let type = "Customer";
     // check validate
-    if (!(0, _validateJs.valCus)()) return;
+    (0, _helpersJs.getEle)("#CodeStudent").disabled = true;
+    if (!(0, _validateJs.valCus)("Update")) return;
     const CustomerUpdate = new (0, _constructorJs.Customer)(code, fullname, address, email, companyName, totalInvoice, rank, type);
     const personUpdate = new (0, _constructorJs.Person)(code, fullname, address, email, type);
     (0, _mainJs.customerList)[(0, _helpersJs.findI)(code, (0, _mainJs.customerList))] = CustomerUpdate;

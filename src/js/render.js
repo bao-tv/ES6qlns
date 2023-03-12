@@ -14,7 +14,7 @@ export function renderStudent(studentList) {
                 <td>${student.math}</td>
                 <td>${student.physical}</td>
                 <td>${student.chemistry}</td>
-                <td>${student.calcMedium()}</td>
+                <td>${student.calcMedium().toFixed(2)}</td>
                 <td>
                     <button class="btn btn-primary" data-toggle="modal"
                     data-target="#StudentModal" data-id="${student.code}">Update</button>
@@ -39,9 +39,9 @@ export function renderEmployee(employeeList) {
                 <td>${employee.address}</td>
                 <td>${employee.code}</td>
                 <td>${employee.email}</td>
-                <td>${employee.workingday}</td>
-                <td>${employee.dailywage}</td>
-                <td>${employee.calcSalary()}</td>
+                <td>${employee.workingday.toLocaleString()}</td>
+                <td>${employee.dailywage.toLocaleString()}</td>
+                <td>${employee.calcSalary().toLocaleString()}</td>
                 <td>
                     <button class="btn btn-primary" data-toggle="modal"
                     data-target="#EmployeeModal" data-id="${employee.code}">Update</button>
@@ -67,7 +67,7 @@ export function renderCustomer(CustomerList) {
                 <td>${Customer.code}</td>
                 <td>${Customer.email}</td>
                 <td>${Customer.companyname}</td>
-                <td>${Customer.totalinvoice}</td>
+                <td>${Customer.totalinvoice.toLocaleString()}</td>
                 <td>${Customer.rank}</td>
                 <td>
                     <button class="btn btn-primary" data-toggle="modal"

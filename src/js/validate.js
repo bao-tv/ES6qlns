@@ -1,5 +1,5 @@
 import {getEle} from "./helpers.js";
-import {listPersons,studentList} from "./main.js";
+import {listPersons} from "./main.js";
 
 let arrCharCode = /^[A-Za-z0-9]+$/;
 let arrNum = /^[0-9]/;
@@ -22,13 +22,12 @@ function checkExist (id) {
 // check student ================================
 export function valStu(evt) {
     let isValid = true;
-
-    // check code
+    
     if(checkEmpty('#CodeStudent')) {
         isValid = false;
         getEle('#tbCodeStudent').style.display = 'block';
         getEle('#tbCodeStudent').innerHTML = 'not Empty!';
-    } else if (checkExist('#CodeStudent')) {
+    } else if (checkExist('#CodeStudent') && evt !== 'Update') {
         isValid = false;
         getEle('#tbCodeStudent').style.display = 'block';
         getEle('#tbCodeStudent').innerHTML = 'already exists!';
@@ -37,6 +36,8 @@ export function valStu(evt) {
         getEle('#tbCodeStudent').style.display = 'block';
         getEle('#tbCodeStudent').innerHTML = 'from 4-6 characters and no special characters!';
     } else getEle('#tbCodeStudent').style.display = 'none';
+    
+    // check code
 
     // fullname
     if(checkEmpty('#FullNameStudent')) {
@@ -96,7 +97,7 @@ export function valEmp(evt) {
         isValid = false;
         getEle('#tbCodeEmployee').style.display = 'block';
         getEle('#tbCodeEmployee').innerHTML = 'not Empty!';
-    } else if (checkExist('#CodeEmployee')) {
+    } else if (checkExist('#CodeEmployee') && evt !== 'Update') {
         isValid = false;
         getEle('#tbCodeEmployee').style.display = 'block';
         getEle('#tbCodeEmployee').innerHTML = 'already exists!';
@@ -145,21 +146,20 @@ export function valEmp(evt) {
     return isValid;
 }
 
-
 // check Customer ================================
 
 export function valCus(evt) {
     let isValid = true;
-
     // check code
     if(checkEmpty('#CodeCustomer')) {
         isValid = false;
         getEle('#tbCodeCustomer').style.display = 'block';
         getEle('#tbCodeCustomer').innerHTML = 'not Empty!';
-    } else if (checkExist('#CodeCustomer')) {
+    } else if (checkExist('#CodeCustomer') && evt !== 'Update') {
         isValid = false;
         getEle('#tbCodeCustomer').style.display = 'block';
         getEle('#tbCodeCustomer').innerHTML = 'already exists!';
+        console.log();
     } else if (!(getEle('#CodeCustomer').value).match(arrCharCode)||(getEle('#CodeCustomer').value).length <4 ||(getEle('#CodeCustomer').value).length >6) {
         isValid = false;
         getEle('#tbCodeCustomer').style.display = 'block';
