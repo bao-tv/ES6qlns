@@ -28,7 +28,6 @@ getEle('#btnAddStudent').addEventListener('click', () => {
 getEle('.modal-footer-Student').addEventListener('click', (evt) => {
     // Created Student
     if(evt.target.innerHTML === 'Created') {
-        
         addStudent();
         renderStudent(studentList);
         renderListPersons(listPersons);
