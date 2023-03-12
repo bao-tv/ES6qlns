@@ -1,1 +1,1 @@
-{"name":"quanlynhansu","source":"src/index.html","scripts":{"start":"parcel","build":"parcel build"},"dependencies":{"parcel":"^2.8.3"},"devDependencies":{"@parcel/transformer-sass":"^2.8.3"}}
+{"name":"quanlynhansu","source":"src/index.html","scripts":{"start":"parcel","build":"parcel build"},"dependencies":{"bootstrap":"^5.2.3","parcel":"^2.8.3"},"devDependencies":{"@parcel/transformer-sass":"^2.8.3"}}
